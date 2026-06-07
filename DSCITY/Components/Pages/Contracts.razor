@@ -1,0 +1,196 @@
+@page "/contracts"
+@inject AdminWorkspace Workspace
+
+<PageTitle>Hop dong</PageTitle>
+
+<section class="page-header-card">
+    <div>
+        <p class="eyebrow">Contract management</p>
+        <h1>Quan ly hop dong hop tac</h1>
+        <p>Theo doi version, dieu khoan thuong mai, ngay hieu luc, gia han va thanh ly.</p>
+    </div>
+    <div class="header-actions">
+        <button class="btn btn-hero-primary" type="button" @onclick="CreateNew">Tao hop dong moi</button>
+        <button class="btn btn-hero-secondary" type="button" @onclick="MarkSigned">Danh dau da ky</button>
+    </div>
+</section>
+
+@if (!string.IsNullOrWhiteSpace(feedbackMessage))
+{
+    <div class="feedback-banner">@feedbackMessage</div>
+}
+
+<section class="editor-grid">
+    <article class="panel-card">
+        <div class="panel-header">
+            <div>
+                <p class="eyebrow">Danh sach hop dong</p>
+                <h3>@Workspace.Contracts.Count hop dong</h3>
+            </div>
+        </div>
+
+        <table class="admin-table interactive-table">
+            <thead>
+                <tr><th>So hop dong</th><th>Doanh nghiep</th><th>Version</th><th>Trang thai</th><th></th></tr>
+            </thead>
+            <tbody>
+                @foreach (var contract in Workspace.Contracts)
+                {
+                    <tr class="@(selectedContractId == contract.Id ? "selected-row" : null)">
+                        <td><strong>@contract.Number</strong><p>@contract.EffectivePeriod</p></td>
+                        <td>@contract.CompanyName</td>
+                        <td>@contract.Version</td>
+                        <td><span class="status-pill @StatusClass(contract.Status)">@contract.Status</span></td>
+                        <td><button class="table-link" type="button" @onclick="() => SelectContract(contract.Id)">Mo</button></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </article>
+
+    <article class="panel-card">
+        <div class="panel-header">
+            <div>
+                <p class="eyebrow">Bien tap hop dong</p>
+                <h3>@(isCreatingContract ? "Hop dong moi" : contractDraft.Number)</h3>
+            </div>
+            <span class="status-pill @StatusClass(contractDraft.Status)">@contractDraft.Status</span>
+        </div>
+
+        <div class="field-stack">
+            <div class="form-grid">
+                <label class="field-group"><span>So hop dong</span><input @bind="contractDraft.Number" /></label>
+                <label class="field-group"><span>Doanh nghiep</span>
+                    <select @bind="contractDraft.CompanyName">
+                        @foreach (var company in Workspace.Companies)
+                        {
+                            <option value="@company.Name">@company.Name</option>
+                        }
+                    </select>
+                </label>
+                <label class="field-group"><span>Version</span><input @bind="contractDraft.Version" /></label>
+                <label class="field-group"><span>Gia tri</span><input @bind="contractDraft.Value" /></label>
+                <label class="field-group"><span>Hieu luc</span><input @bind="contractDraft.EffectivePeriod" /></label>
+                <label class="field-group"><span>Chu so huu</span><input @bind="contractDraft.Owner" /></label>
+            </div>
+            <label class="field-group"><span>Trang thai</span>
+                <select @bind="contractDraft.Status">
+                    @foreach (var status in ContractStatuses)
+                    {
+                        <option value="@status">@status</option>
+                    }
+                </select>
+            </label>
+            <label class="field-group"><span>Ghi chu</span><textarea rows="4" @bind="contractDraft.Notes"></textarea></label>
+            <div class="action-row">
+                <button class="btn btn-hero-primary" type="button" @onclick="SaveContract">Luu hop dong</button>
+                <button class="btn btn-hero-secondary" type="button" @onclick="MarkSigned">Danh dau da ky</button>
+                <button class="btn btn-danger-soft" type="button" @onclick="DeleteContract" disabled="@isCreatingContract">Xoa</button>
+                <button class="btn btn-neutral" type="button" @onclick="ResetDraft">Huy thay doi</button>
+            </div>
+
+            <div class="summary-list">
+                <div><span>Gia tri hien tai</span><strong>@contractDraft.Value</strong></div>
+                <div><span>Owner</span><strong>@contractDraft.Owner</strong></div>
+                <div><span>Ghi chu</span><strong>@contractDraft.Notes</strong></div>
+            </div>
+        </div>
+    </article>
+</section>
+
+@code {
+    private static readonly string[] ContractStatuses = ["Ban nhap", "Can bo sung", "Cho ky", "Da ky", "Kich hoat"];
+
+    private Guid? selectedContractId;
+    private bool isCreatingContract;
+    private string? feedbackMessage;
+    private ContractRecord contractDraft = new();
+
+    protected override void OnInitialized()
+    {
+        SelectContract(Workspace.Contracts.First().Id);
+    }
+
+    private void SelectContract(Guid id)
+    {
+        var contract = Workspace.Contracts.First(x => x.Id == id);
+        contractDraft = contract.Clone();
+        selectedContractId = id;
+        isCreatingContract = false;
+        feedbackMessage = $"Dang mo hop dong: {contract.Number}";
+    }
+
+    private void CreateNew()
+    {
+        contractDraft = Workspace.CreateContractDraft();
+        contractDraft.CompanyName = Workspace.Companies.First().Name;
+        contractDraft.Owner = "Legal Team";
+        selectedContractId = contractDraft.Id;
+        isCreatingContract = true;
+        feedbackMessage = "Dang tao hop dong moi.";
+    }
+
+    private void SaveContract()
+    {
+        Workspace.SaveContract(contractDraft);
+        isCreatingContract = false;
+        SelectContract(contractDraft.Id);
+        feedbackMessage = $"Da luu hop dong: {contractDraft.Number}";
+    }
+
+    private void MarkSigned()
+    {
+        contractDraft.Status = "Da ky";
+        if (contractDraft.EffectivePeriod == "Cho cap nhat" || string.IsNullOrWhiteSpace(contractDraft.EffectivePeriod))
+        {
+            contractDraft.EffectivePeriod = $"{DateTime.Now:dd/MM/yyyy} - {DateTime.Now.AddYears(1):dd/MM/yyyy}";
+        }
+        SaveContract();
+        feedbackMessage = $"Hop dong {contractDraft.Number} da duoc danh dau la da ky.";
+    }
+
+    private void ResetDraft()
+    {
+        if (isCreatingContract)
+        {
+            CreateNew();
+            return;
+        }
+
+        if (selectedContractId is Guid id)
+        {
+            SelectContract(id);
+            feedbackMessage = "Da hoan tac thay doi chua luu.";
+        }
+    }
+
+    private void DeleteContract()
+    {
+        if (selectedContractId is not Guid id || isCreatingContract)
+        {
+            return;
+        }
+
+        var deletedNumber = contractDraft.Number;
+        if (Workspace.DeleteContract(id))
+        {
+            feedbackMessage = $"Da xoa hop dong: {deletedNumber}";
+            if (Workspace.Contracts.Count > 0)
+            {
+                SelectContract(Workspace.Contracts.First().Id);
+            }
+            else
+            {
+                CreateNew();
+            }
+        }
+    }
+
+    private static string StatusClass(string status) => status switch
+    {
+        "Da ky" or "Kich hoat" => "success",
+        "Cho ky" => "info",
+        "Can bo sung" => "warning",
+        _ => "muted"
+    };
+}

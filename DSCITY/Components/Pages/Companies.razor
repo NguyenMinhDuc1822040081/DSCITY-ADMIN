@@ -1,0 +1,193 @@
+@page "/companies"
+@inject AdminWorkspace Workspace
+
+<PageTitle>Doanh nghiep doi tac</PageTitle>
+
+<section class="page-header-card">
+    <div>
+        <p class="eyebrow">Partner management</p>
+        <h1>Danh sach doanh nghiep hop tac</h1>
+        <p>Quan ly thong tin phap nhan, nguoi dai dien, nhom dich vu va tinh trang hop tac.</p>
+    </div>
+    <div class="header-actions">
+        <button class="btn btn-hero-primary" type="button" @onclick="CreateNew">Them doanh nghiep</button>
+        <button class="btn btn-hero-secondary" type="button" @onclick="SelectFirstActive">Chon doi tac uu tien</button>
+    </div>
+</section>
+
+@if (!string.IsNullOrWhiteSpace(feedbackMessage))
+{
+    <div class="feedback-banner">@feedbackMessage</div>
+}
+
+<section class="filter-bar">
+    @foreach (var filter in Filters)
+    {
+        <button type="button" class="filter-chip @(selectedFilter == filter ? "active" : null)" @onclick="() => selectedFilter = filter">@filter</button>
+    }
+</section>
+
+<section class="editor-grid">
+    <article class="panel-card">
+        <div class="panel-header">
+            <div>
+                <p class="eyebrow">Danh sach doi tac</p>
+                <h3>@FilteredCompanies.Count doanh nghiep</h3>
+            </div>
+            <span class="badge-soft">Co the chon de sua</span>
+        </div>
+
+        <table class="admin-table interactive-table">
+            <thead>
+                <tr><th>Doanh nghiep</th><th>Ma so thue</th><th>Linh vuc</th><th>Trang thai</th><th></th></tr>
+            </thead>
+            <tbody>
+                @foreach (var company in FilteredCompanies)
+                {
+                    <tr class="@(selectedCompanyId == company.Id ? "selected-row" : null)">
+                        <td>
+                            <strong>@company.Name</strong>
+                            <p>@company.Location</p>
+                        </td>
+                        <td>@company.TaxCode</td>
+                        <td>@company.Category</td>
+                        <td><span class="status-pill @StatusClass(company.Status)">@company.Status</span></td>
+                        <td><button class="table-link" type="button" @onclick="() => SelectCompany(company.Id)">Chinh sua</button></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </article>
+
+    <article class="panel-card">
+        <div class="panel-header">
+            <div>
+                <p class="eyebrow">Ho so doi tac</p>
+                <h3>@(isCreatingCompany ? "Tao doanh nghiep moi" : "Chinh sua doanh nghiep")</h3>
+            </div>
+        </div>
+
+        <div class="field-stack">
+            <div class="form-grid">
+                <label class="field-group"><span>Ten doanh nghiep</span><input @bind="companyDraft.Name" /></label>
+                <label class="field-group"><span>Ma so thue</span><input @bind="companyDraft.TaxCode" /></label>
+                <label class="field-group"><span>Linh vuc</span><input @bind="companyDraft.Category" /></label>
+                <label class="field-group"><span>Nguoi phu trach</span><input @bind="companyDraft.Contact" /></label>
+                <label class="field-group"><span>Khu vuc</span><input @bind="companyDraft.Location" /></label>
+                <label class="field-group"><span>Trang thai</span>
+                    <select @bind="companyDraft.Status">
+                        @foreach (var option in CompanyStatuses)
+                        {
+                            <option value="@option">@option</option>
+                        }
+                    </select>
+                </label>
+            </div>
+            <label class="field-group"><span>Thong tin hop dong</span><input @bind="companyDraft.ContractInfo" /></label>
+            <label class="field-group"><span>Ghi chu</span><textarea rows="4" @bind="companyDraft.Notes"></textarea></label>
+            <div class="action-row">
+                <button class="btn btn-hero-primary" type="button" @onclick="SaveCompany">Luu thay doi</button>
+                <button class="btn btn-hero-secondary" type="button" @onclick="CreateNew">Tao ban moi</button>
+                <button class="btn btn-danger-soft" type="button" @onclick="DeleteCompany" disabled="@isCreatingCompany">Xoa</button>
+                <button class="btn btn-neutral" type="button" @onclick="ResetDraft">Huy thay doi</button>
+            </div>
+            <p class="section-muted">Ban ghi duoc luu trong bo nho cua phien Blazor de ban co the thao tac ngay tren giao dien.</p>
+        </div>
+    </article>
+</section>
+
+@code {
+    private static readonly string[] Filters = ["Tat ca", "Hoat dong", "Cho bo sung", "Cho ky", "Tam dung", "Cho tham dinh"];
+    private static readonly string[] CompanyStatuses = ["Hoat dong", "Cho tham dinh", "Cho bo sung", "Cho ky", "Tam dung"];
+
+    private string selectedFilter = "Tat ca";
+    private Guid? selectedCompanyId;
+    private bool isCreatingCompany;
+    private string? feedbackMessage;
+    private CompanyRecord companyDraft = new();
+
+    private List<CompanyRecord> FilteredCompanies => Workspace.Companies
+        .Where(company => selectedFilter == "Tat ca" || company.Status == selectedFilter)
+        .ToList();
+
+    protected override void OnInitialized()
+    {
+        SelectFirstActive();
+    }
+
+    private void SelectFirstActive()
+    {
+        var company = Workspace.Companies.FirstOrDefault(x => x.Status == "Hoat dong") ?? Workspace.Companies.First();
+        SelectCompany(company.Id);
+    }
+
+    private void SelectCompany(Guid id)
+    {
+        var company = Workspace.Companies.First(x => x.Id == id);
+        selectedCompanyId = id;
+        isCreatingCompany = false;
+        companyDraft = company.Clone();
+        feedbackMessage = $"Dang mo ho so: {company.Name}";
+    }
+
+    private void CreateNew()
+    {
+        companyDraft = Workspace.CreateCompanyDraft();
+        selectedCompanyId = companyDraft.Id;
+        isCreatingCompany = true;
+        feedbackMessage = "Dang tao doanh nghiep moi.";
+    }
+
+    private void SaveCompany()
+    {
+        Workspace.SaveCompany(companyDraft);
+        isCreatingCompany = false;
+        SelectCompany(companyDraft.Id);
+        feedbackMessage = $"Da luu ho so doanh nghiep: {companyDraft.Name}";
+    }
+
+    private void ResetDraft()
+    {
+        if (isCreatingCompany)
+        {
+            CreateNew();
+            return;
+        }
+
+        if (selectedCompanyId is Guid id)
+        {
+            SelectCompany(id);
+            feedbackMessage = "Da hoan tac thay doi chua luu.";
+        }
+    }
+
+    private void DeleteCompany()
+    {
+        if (selectedCompanyId is not Guid id || isCreatingCompany)
+        {
+            return;
+        }
+
+        var deletedName = companyDraft.Name;
+        if (Workspace.DeleteCompany(id))
+        {
+            feedbackMessage = $"Da xoa doanh nghiep: {deletedName}";
+            if (Workspace.Companies.Count > 0)
+            {
+                SelectCompany(Workspace.Companies.First().Id);
+            }
+            else
+            {
+                CreateNew();
+            }
+        }
+    }
+
+    private static string StatusClass(string status) => status switch
+    {
+        "Hoat dong" => "success",
+        "Cho bo sung" => "warning",
+        "Cho ky" => "info",
+        _ => "muted"
+    };
+}

@@ -1,0 +1,37 @@
+@inherits LayoutComponentBase
+
+<div class="admin-shell">
+    <aside class="admin-sidebar">
+        <NavMenu />
+    </aside>
+
+    <div class="admin-main">
+        <header class="admin-topbar">
+            <div>
+                <p class="eyebrow">Enterprise Partnership Portal</p>
+                <h2>DSCITY Admin</h2>
+            </div>
+
+            <div class="topbar-meta">
+                <div class="meta-chip">
+                    <span class="meta-dot"></span>
+                    12 ho so can xu ly hom nay
+                </div>
+                <div class="user-card">
+                    <strong>Le Thu Ha</strong>
+                    <span>Super Admin</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="admin-content">
+            @Body
+        </main>
+    </div>
+</div>
+
+<div id="blazor-error-ui" data-nosnippet>
+    Da xay ra loi ngoai du kien.
+    <a href="." class="reload">Tai lai</a>
+    <span class="dismiss">x</span>
+</div>

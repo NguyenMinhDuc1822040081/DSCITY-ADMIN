@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "vNmPDlkl1h8=",
+  "success": true,
+  "projectFilePath": "D:\\New folder\\DSCITY-AD\\DSCITY-ADMIN\\DSCITY\\DSCITY.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\dev01\\.nuget\\packages\\microsoft.aspnetcore.app.internal.assets\\10.0.8\\microsoft.aspnetcore.app.internal.assets.10.0.8.nupkg.sha512"
+  ],
+  "logs": []
+}

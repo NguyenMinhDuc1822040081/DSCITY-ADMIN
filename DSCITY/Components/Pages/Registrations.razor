@@ -1,0 +1,197 @@
+@page "/registrations"
+@inject AdminWorkspace Workspace
+
+<PageTitle>Ho so dang ky</PageTitle>
+
+<section class="page-header-card">
+    <div>
+        <p class="eyebrow">Registration intake</p>
+        <h1>Ho so dang ky hop tac</h1>
+        <p>Theo doi tiep nhan, tham dinh, bo sung tai lieu va chuyen buoc ky hop dong.</p>
+    </div>
+    <div class="header-actions">
+        <button class="btn btn-hero-primary" type="button" @onclick="CreateNew">Tao ho so</button>
+        <button class="btn btn-hero-secondary" type="button" @onclick="MoveToApproval">Chuyen sang phe duyet</button>
+    </div>
+</section>
+
+@if (!string.IsNullOrWhiteSpace(feedbackMessage))
+{
+    <div class="feedback-banner">@feedbackMessage</div>
+}
+
+<section class="editor-grid">
+    <article class="panel-card">
+        <div class="panel-header">
+            <div>
+                <p class="eyebrow">Danh sach ho so</p>
+                <h3>@Workspace.Registrations.Count ho so dang mo</h3>
+            </div>
+        </div>
+
+        <table class="admin-table interactive-table">
+            <thead>
+                <tr><th>Ho so</th><th>Doanh nghiep</th><th>Buoc hien tai</th><th>Uu tien</th><th></th></tr>
+            </thead>
+            <tbody>
+                @foreach (var registration in Workspace.Registrations)
+                {
+                    <tr class="@(selectedRegistrationId == registration.Id ? "selected-row" : null)">
+                        <td><strong>@registration.Code</strong><p>@registration.Owner</p></td>
+                        <td>@registration.CompanyName</td>
+                        <td>@registration.CurrentStep</td>
+                        <td><span class="status-pill @StatusClass(registration.Priority)">@registration.Priority</span></td>
+                        <td><button class="table-link" type="button" @onclick="() => SelectRegistration(registration.Id)">Mo</button></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </article>
+
+    <article class="panel-card">
+        <div class="panel-header">
+            <div>
+                <p class="eyebrow">Xu ly ho so</p>
+                <h3>@(isCreatingRegistration ? "Ho so moi" : registrationDraft.Code)</h3>
+            </div>
+            <span class="status-pill @StatusClass(registrationDraft.Status)">@registrationDraft.Status</span>
+        </div>
+
+        <div class="field-stack">
+            <div class="form-grid">
+                <label class="field-group"><span>Ma ho so</span><input @bind="registrationDraft.Code" /></label>
+                <label class="field-group"><span>Doanh nghiep</span>
+                    <select @bind="registrationDraft.CompanyName">
+                        @foreach (var company in Workspace.Companies)
+                        {
+                            <option value="@company.Name">@company.Name</option>
+                        }
+                    </select>
+                </label>
+                <label class="field-group"><span>Buoc hien tai</span><input @bind="registrationDraft.CurrentStep" /></label>
+                <label class="field-group"><span>Nguoi phu trach</span><input @bind="registrationDraft.Owner" /></label>
+                <label class="field-group"><span>Uu tien</span>
+                    <select @bind="registrationDraft.Priority">
+                        @foreach (var priority in Priorities)
+                        {
+                            <option value="@priority">@priority</option>
+                        }
+                    </select>
+                </label>
+                <label class="field-group"><span>SLA</span><input @bind="registrationDraft.Sla" /></label>
+            </div>
+            <label class="field-group"><span>Trang thai xu ly</span>
+                <select @bind="registrationDraft.Status">
+                    @foreach (var status in RegistrationStatuses)
+                    {
+                        <option value="@status">@status</option>
+                    }
+                </select>
+            </label>
+            <label class="field-group"><span>Ghi chu</span><textarea rows="4" @bind="registrationDraft.Notes"></textarea></label>
+            <div class="action-row">
+                <button class="btn btn-hero-primary" type="button" @onclick="SaveRegistration">Luu ho so</button>
+                <button class="btn btn-hero-secondary" type="button" @onclick="MoveToApproval">Danh dau cho phe duyet</button>
+                <button class="btn btn-danger-soft" type="button" @onclick="DeleteRegistration" disabled="@isCreatingRegistration">Xoa</button>
+                <button class="btn btn-neutral" type="button" @onclick="ResetDraft">Huy thay doi</button>
+            </div>
+        </div>
+    </article>
+</section>
+
+@code {
+    private static readonly string[] Priorities = ["Cao", "Trung binh", "On dinh"];
+    private static readonly string[] RegistrationStatuses = ["Tiep nhan", "Cho tham dinh", "Cho bo sung", "Cho phe duyet", "Hoan tat"];
+
+    private Guid? selectedRegistrationId;
+    private bool isCreatingRegistration;
+    private string? feedbackMessage;
+    private RegistrationRecord registrationDraft = new();
+
+    protected override void OnInitialized()
+    {
+        SelectRegistration(Workspace.Registrations.First().Id);
+    }
+
+    private void SelectRegistration(Guid id)
+    {
+        var registration = Workspace.Registrations.First(x => x.Id == id);
+        registrationDraft = registration.Clone();
+        selectedRegistrationId = id;
+        isCreatingRegistration = false;
+        feedbackMessage = $"Dang xu ly ho so: {registration.Code}";
+    }
+
+    private void CreateNew()
+    {
+        registrationDraft = Workspace.CreateRegistrationDraft();
+        registrationDraft.CompanyName = Workspace.Companies.First().Name;
+        selectedRegistrationId = registrationDraft.Id;
+        isCreatingRegistration = true;
+        feedbackMessage = "Dang tao ho so dang ky moi.";
+    }
+
+    private void SaveRegistration()
+    {
+        Workspace.SaveRegistration(registrationDraft);
+        isCreatingRegistration = false;
+        SelectRegistration(registrationDraft.Id);
+        feedbackMessage = $"Da luu ho so: {registrationDraft.Code}";
+    }
+
+    private void MoveToApproval()
+    {
+        registrationDraft.Status = "Cho phe duyet";
+        registrationDraft.CurrentStep = "Cho phe duyet noi bo";
+        registrationDraft.Sla = "Da day sang luong duyet";
+        SaveRegistration();
+        feedbackMessage = $"Ho so {registrationDraft.Code} da duoc chuyen sang phe duyet.";
+    }
+
+    private void ResetDraft()
+    {
+        if (isCreatingRegistration)
+        {
+            CreateNew();
+            return;
+        }
+
+        if (selectedRegistrationId is Guid id)
+        {
+            SelectRegistration(id);
+            feedbackMessage = "Da hoan tac thay doi chua luu.";
+        }
+    }
+
+    private void DeleteRegistration()
+    {
+        if (selectedRegistrationId is not Guid id || isCreatingRegistration)
+        {
+            return;
+        }
+
+        var deletedCode = registrationDraft.Code;
+        if (Workspace.DeleteRegistration(id))
+        {
+            feedbackMessage = $"Da xoa ho so: {deletedCode}";
+            if (Workspace.Registrations.Count > 0)
+            {
+                SelectRegistration(Workspace.Registrations.First().Id);
+            }
+            else
+            {
+                CreateNew();
+            }
+        }
+    }
+
+    private static string StatusClass(string status) => status switch
+    {
+        "Cao" => "warning",
+        "Cho phe duyet" => "info",
+        "Hoan tat" => "success",
+        "On dinh" => "success",
+        "Cho bo sung" => "warning",
+        _ => "muted"
+    };
+}
