@@ -83,4 +83,5 @@ D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\DSCITY.pdb
 D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\DSCITY.genruntimeconfig.cache
 D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\ref\DSCITY.dll
 D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\zwts3d0k70-{0}-z8owtblcsl-z8owtblcsl.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\90i2vzk8e5-{0}-tj6vi6b47e-tj6vi6b47e.gz
+D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\DSCITY.sourcelink.json
+D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\90i2vzk8e5-{0}-jnba8dh3tg-jnba8dh3tg.gz

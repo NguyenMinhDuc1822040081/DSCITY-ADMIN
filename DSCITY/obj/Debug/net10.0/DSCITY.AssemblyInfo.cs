@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DSCITY")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+18a31facde6e81bc21813844bcb1a801942c048e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a662ae1155dbba57e8f147a1086281f60846599e")]
 [assembly: System.Reflection.AssemblyProductAttribute("DSCITY")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DSCITY")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

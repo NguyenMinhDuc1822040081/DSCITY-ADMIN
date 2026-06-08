@@ -1,29 +1,31 @@
-@page "/companies"
+﻿@page "/companies"
+@implements IDisposable
 @inject AdminWorkspace Workspace
+@inject LanguageService Loc
 
-<PageTitle>Doanh nghiep doi tac</PageTitle>
+<PageTitle>@Loc.Text("Doanh nghiệp đối tác", "Partner companies")</PageTitle>
 
 <section class="page-header-card">
     <div>
-        <p class="eyebrow">Partner management</p>
-        <h1>Danh sach doanh nghiep hop tac</h1>
-        <p>Quan ly thong tin phap nhan, nguoi dai dien, nhom dich vu va tinh trang hop tac.</p>
+        <p class="eyebrow">@Loc.Text("Quản lý đối tác", "Partner management")</p>
+        <h1>@Loc.Text("Danh sách doanh nghiệp hợp tác", "Partner company directory")</h1>
+        <p>@Loc.Text("Quản lý thông tin pháp nhân, người đại diện, nhóm dịch vụ và tình trạng hợp tác.", "Manage legal information, representatives, service groups, and partnership status.")</p>
     </div>
     <div class="header-actions">
-        <button class="btn btn-hero-primary" type="button" @onclick="CreateNew">Them doanh nghiep</button>
-        <button class="btn btn-hero-secondary" type="button" @onclick="SelectFirstActive">Chon doi tac uu tien</button>
+        <button class="btn btn-hero-primary" type="button" @onclick="CreateNew">@Loc.Text("Thêm doanh nghiệp", "Add company")</button>
+        <button class="btn btn-hero-secondary" type="button" @onclick="SelectFirstActive">@Loc.Text("Chọn đối tác ưu tiên", "Select priority partner")</button>
     </div>
 </section>
 
 @if (!string.IsNullOrWhiteSpace(feedbackMessage))
 {
-    <div class="feedback-banner">@feedbackMessage</div>
+    <div class="feedback-banner">@Loc.Translate(feedbackMessage)</div>
 }
 
 <section class="filter-bar">
     @foreach (var filter in Filters)
     {
-        <button type="button" class="filter-chip @(selectedFilter == filter ? "active" : null)" @onclick="() => selectedFilter = filter">@filter</button>
+        <button type="button" class="filter-chip @(selectedFilter == filter ? "active" : null)" @onclick="() => selectedFilter = filter">@Loc.Translate(filter)</button>
     }
 </section>
 
@@ -31,15 +33,15 @@
     <article class="panel-card">
         <div class="panel-header">
             <div>
-                <p class="eyebrow">Danh sach doi tac</p>
-                <h3>@FilteredCompanies.Count doanh nghiep</h3>
+                <p class="eyebrow">@Loc.Text("Danh sách đối tác", "Partner list")</p>
+                <h3>@FilteredCompanies.Count @Loc.Text("doanh nghiệp", "companies")</h3>
             </div>
-            <span class="badge-soft">Co the chon de sua</span>
+            <span class="badge-soft">@Loc.Text("Có thể chọn để sửa", "Select a record to edit")</span>
         </div>
 
         <table class="admin-table interactive-table">
             <thead>
-                <tr><th>Doanh nghiep</th><th>Ma so thue</th><th>Linh vuc</th><th>Trang thai</th><th></th></tr>
+                <tr><th>@Loc.Text("Doanh nghiệp", "Company")</th><th>@Loc.Text("Mã số thuế", "Tax code")</th><th>@Loc.Text("Lĩnh vực", "Category")</th><th>@Loc.Text("Trạng thái", "Status")</th><th></th></tr>
             </thead>
             <tbody>
                 @foreach (var company in FilteredCompanies)
@@ -50,9 +52,9 @@
                             <p>@company.Location</p>
                         </td>
                         <td>@company.TaxCode</td>
-                        <td>@company.Category</td>
-                        <td><span class="status-pill @StatusClass(company.Status)">@company.Status</span></td>
-                        <td><button class="table-link" type="button" @onclick="() => SelectCompany(company.Id)">Chinh sua</button></td>
+                        <td>@Loc.Translate(company.Category)</td>
+                        <td><span class="status-pill @StatusClass(company.Status)">@Loc.Translate(company.Status)</span></td>
+                        <td><button class="table-link" type="button" @onclick="() => SelectCompany(company.Id)">@Loc.Text("Chỉnh sửa", "Edit")</button></td>
                     </tr>
                 }
             </tbody>
@@ -62,62 +64,65 @@
     <article class="panel-card">
         <div class="panel-header">
             <div>
-                <p class="eyebrow">Ho so doi tac</p>
-                <h3>@(isCreatingCompany ? "Tao doanh nghiep moi" : "Chinh sua doanh nghiep")</h3>
+                <p class="eyebrow">@Loc.Text("Hồ sơ đối tác", "Partner dossier")</p>
+                <h3>@(isCreatingCompany ? Loc.Text("Tạo doanh nghiệp mới", "Create a new company") : Loc.Text("Chỉnh sửa doanh nghiệp", "Edit company"))</h3>
             </div>
         </div>
 
         <div class="field-stack">
             <div class="form-grid">
-                <label class="field-group"><span>Ten doanh nghiep</span><input @bind="companyDraft.Name" /></label>
-                <label class="field-group"><span>Ma so thue</span><input @bind="companyDraft.TaxCode" /></label>
-                <label class="field-group"><span>Linh vuc</span><input @bind="companyDraft.Category" /></label>
-                <label class="field-group"><span>Nguoi phu trach</span><input @bind="companyDraft.Contact" /></label>
-                <label class="field-group"><span>Khu vuc</span><input @bind="companyDraft.Location" /></label>
-                <label class="field-group"><span>Trang thai</span>
+                <label class="field-group"><span>@Loc.Text("Tên doanh nghiệp", "Company name")</span><input @bind="companyDraft.Name" /></label>
+                <label class="field-group"><span>@Loc.Text("Mã số thuế", "Tax code")</span><input @bind="companyDraft.TaxCode" /></label>
+                <label class="field-group"><span>@Loc.Text("Lĩnh vực", "Category")</span><input @bind="companyDraft.Category" /></label>
+                <label class="field-group"><span>@Loc.Text("Người phụ trách", "Owner")</span><input @bind="companyDraft.Contact" /></label>
+                <label class="field-group"><span>@Loc.Text("Khu vực", "Region")</span><input @bind="companyDraft.Location" /></label>
+                <label class="field-group"><span>@Loc.Text("Trạng thái", "Status")</span>
                     <select @bind="companyDraft.Status">
                         @foreach (var option in CompanyStatuses)
                         {
-                            <option value="@option">@option</option>
+                            <option value="@option">@Loc.Translate(option)</option>
                         }
                     </select>
                 </label>
             </div>
-            <label class="field-group"><span>Thong tin hop dong</span><input @bind="companyDraft.ContractInfo" /></label>
-            <label class="field-group"><span>Ghi chu</span><textarea rows="4" @bind="companyDraft.Notes"></textarea></label>
+            <label class="field-group"><span>@Loc.Text("Thông tin hợp đồng", "Contract information")</span><input @bind="companyDraft.ContractInfo" /></label>
+            <label class="field-group"><span>@Loc.Text("Ghi chú", "Notes")</span><textarea rows="4" @bind="companyDraft.Notes"></textarea></label>
             <div class="action-row">
-                <button class="btn btn-hero-primary" type="button" @onclick="SaveCompany">Luu thay doi</button>
-                <button class="btn btn-hero-secondary" type="button" @onclick="CreateNew">Tao ban moi</button>
-                <button class="btn btn-danger-soft" type="button" @onclick="DeleteCompany" disabled="@isCreatingCompany">Xoa</button>
-                <button class="btn btn-neutral" type="button" @onclick="ResetDraft">Huy thay doi</button>
+                <button class="btn btn-hero-primary" type="button" @onclick="SaveCompany">@Loc.Text("Lưu thay đổi", "Save changes")</button>
+                <button class="btn btn-hero-secondary" type="button" @onclick="CreateNew">@Loc.Text("Tạo bản mới", "Create new")</button>
+                <button class="btn btn-danger-soft" type="button" @onclick="DeleteCompany" disabled="@isCreatingCompany">@Loc.Text("Xóa", "Delete")</button>
+                <button class="btn btn-neutral" type="button" @onclick="ResetDraft">@Loc.Text("Hủy thay đổi", "Cancel changes")</button>
             </div>
-            <p class="section-muted">Ban ghi duoc luu trong bo nho cua phien Blazor de ban co the thao tac ngay tren giao dien.</p>
+            <p class="section-muted">@Loc.Text("Bản ghi được lưu trong bộ nhớ của phiên Blazor để bạn có thể thao tác ngay trên giao diện.", "Records are stored in the current Blazor session memory so you can interact with them immediately.")</p>
         </div>
     </article>
 </section>
 
 @code {
-    private static readonly string[] Filters = ["Tat ca", "Hoat dong", "Cho bo sung", "Cho ky", "Tam dung", "Cho tham dinh"];
-    private static readonly string[] CompanyStatuses = ["Hoat dong", "Cho tham dinh", "Cho bo sung", "Cho ky", "Tam dung"];
+    private void HandleLanguageChanged() => InvokeAsync(StateHasChanged);
 
-    private string selectedFilter = "Tat ca";
+    private static readonly string[] Filters = ["Tất cả", "Hoạt động", "Chờ bổ sung", "Chờ ký", "Tạm dừng", "Chờ thẩm định"];
+    private static readonly string[] CompanyStatuses = ["Hoạt động", "Chờ thẩm định", "Chờ bổ sung", "Chờ ký", "Tạm dừng"];
+
+    private string selectedFilter = "Tất cả";
     private Guid? selectedCompanyId;
     private bool isCreatingCompany;
     private string? feedbackMessage;
     private CompanyRecord companyDraft = new();
 
     private List<CompanyRecord> FilteredCompanies => Workspace.Companies
-        .Where(company => selectedFilter == "Tat ca" || company.Status == selectedFilter)
+        .Where(company => selectedFilter == "Tất cả" || company.Status == selectedFilter)
         .ToList();
 
     protected override void OnInitialized()
     {
+        Loc.OnChange += HandleLanguageChanged;
         SelectFirstActive();
     }
 
     private void SelectFirstActive()
     {
-        var company = Workspace.Companies.FirstOrDefault(x => x.Status == "Hoat dong") ?? Workspace.Companies.First();
+        var company = Workspace.Companies.FirstOrDefault(x => x.Status == "Hoạt động") ?? Workspace.Companies.First();
         SelectCompany(company.Id);
     }
 
@@ -127,7 +132,7 @@
         selectedCompanyId = id;
         isCreatingCompany = false;
         companyDraft = company.Clone();
-        feedbackMessage = $"Dang mo ho so: {company.Name}";
+        feedbackMessage = $"Đang mở hồ sơ: {company.Name}";
     }
 
     private void CreateNew()
@@ -135,7 +140,7 @@
         companyDraft = Workspace.CreateCompanyDraft();
         selectedCompanyId = companyDraft.Id;
         isCreatingCompany = true;
-        feedbackMessage = "Dang tao doanh nghiep moi.";
+        feedbackMessage = "Đang tạo doanh nghiệp mới.";
     }
 
     private void SaveCompany()
@@ -143,51 +148,36 @@
         Workspace.SaveCompany(companyDraft);
         isCreatingCompany = false;
         SelectCompany(companyDraft.Id);
-        feedbackMessage = $"Da luu ho so doanh nghiep: {companyDraft.Name}";
+        feedbackMessage = $"Đã lưu hồ sơ doanh nghiệp: {companyDraft.Name}";
     }
 
     private void ResetDraft()
     {
-        if (isCreatingCompany)
-        {
-            CreateNew();
-            return;
-        }
-
-        if (selectedCompanyId is Guid id)
-        {
-            SelectCompany(id);
-            feedbackMessage = "Da hoan tac thay doi chua luu.";
-        }
+        if (isCreatingCompany) { CreateNew(); return; }
+        if (selectedCompanyId is Guid id) { SelectCompany(id); feedbackMessage = "Đã hoàn tác thay đổi chưa lưu."; }
     }
 
     private void DeleteCompany()
     {
-        if (selectedCompanyId is not Guid id || isCreatingCompany)
-        {
-            return;
-        }
-
+        if (selectedCompanyId is not Guid id || isCreatingCompany) return;
         var deletedName = companyDraft.Name;
         if (Workspace.DeleteCompany(id))
         {
-            feedbackMessage = $"Da xoa doanh nghiep: {deletedName}";
-            if (Workspace.Companies.Count > 0)
-            {
-                SelectCompany(Workspace.Companies.First().Id);
-            }
-            else
-            {
-                CreateNew();
-            }
+            feedbackMessage = $"Đã xóa doanh nghiệp: {deletedName}";
+            if (Workspace.Companies.Count > 0) SelectCompany(Workspace.Companies.First().Id); else CreateNew();
         }
     }
 
     private static string StatusClass(string status) => status switch
     {
-        "Hoat dong" => "success",
-        "Cho bo sung" => "warning",
-        "Cho ky" => "info",
+        "Hoạt động" => "success",
+        "Chờ bổ sung" => "warning",
+        "Chờ ký" => "info",
         _ => "muted"
     };
+
+    public void Dispose()
+    {
+        Loc.OnChange -= HandleLanguageChanged;
+    }
 }

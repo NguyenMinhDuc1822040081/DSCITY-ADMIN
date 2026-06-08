@@ -1,32 +1,32 @@
-namespace DSCITY.Services;
+﻿namespace DSCITY.Services;
 
 public class AdminWorkspace
 {
     public List<CompanyRecord> Companies { get; } =
     [
-        new() { Id = Guid.NewGuid(), Name = "Central Plaza Parking", TaxCode = "0312456789", Category = "Bai do xe thong minh", Contact = "Nguyen Phuong Linh", Location = "Quan 1, TP.HCM", Status = "Hoat dong", ContractInfo = "Het han 28/06/2026", Notes = "Doi tac chien luoc, uu tien gia han som." },
-        new() { Id = Guid.NewGuid(), Name = "Skyline Mobility", TaxCode = "0319823344", Category = "Cho thue xe may dien", Contact = "Tran Duc Anh", Location = "Thu Duc, TP.HCM", Status = "Cho bo sung", ContractInfo = "Ban nhap", Notes = "Dang cho ban cong chung moi." },
-        new() { Id = Guid.NewGuid(), Name = "Urban Charge Hub", TaxCode = "0401122233", Category = "Tram sac xe dien", Contact = "Le Minh Chau", Location = "Da Nang", Status = "Cho ky", ContractInfo = "V2.1 - Cho doi tac", Notes = "Can chot phu luc van hanh." },
-        new() { Id = Guid.NewGuid(), Name = "Green Transit Services", TaxCode = "0107788991", Category = "Van tai cong cong", Contact = "Pham Quoc Bao", Location = "Ha Noi", Status = "Tam dung", ContractInfo = "Da thanh ly", Notes = "Tam dung sau dot tai cau truc." }
+        new() { Id = Guid.NewGuid(), Name = "Central Plaza Parking", TaxCode = "0312456789", Category = "Bãi đỗ xe thông minh", Contact = "Nguyễn Phương Linh", Location = "Quận 1, TP.HCM", Status = "Hoạt động", ContractInfo = "Hết hạn 28/06/2026", Notes = "Đối tác chiến lược, ưu tiên gia hạn sớm." },
+        new() { Id = Guid.NewGuid(), Name = "Skyline Mobility", TaxCode = "0319823344", Category = "Cho thuê xe máy điện", Contact = "Trần Đức Anh", Location = "Thủ Đức, TP.HCM", Status = "Chờ bổ sung", ContractInfo = "Bản nháp", Notes = "Đang chờ bản công chứng mới." },
+        new() { Id = Guid.NewGuid(), Name = "Urban Charge Hub", TaxCode = "0401122233", Category = "Trạm sạc xe điện", Contact = "Lê Minh Châu", Location = "Đà Nẵng", Status = "Chờ ký", ContractInfo = "V2.1 - Chờ đối tác", Notes = "Cần chốt phụ lục vận hành." },
+        new() { Id = Guid.NewGuid(), Name = "Green Transit Services", TaxCode = "0107788991", Category = "Vận tải công cộng", Contact = "Phạm Quốc Bảo", Location = "Hà Nội", Status = "Tạm dừng", ContractInfo = "Đã thanh lý", Notes = "Tạm dừng sau đợt tái cấu trúc." }
     ];
 
     public List<RegistrationRecord> Registrations { get; } =
     [
-        new() { Id = Guid.NewGuid(), Code = "REG-240607-01", CompanyName = "Skyline Mobility", CurrentStep = "Kiem tra giay phep kinh doanh", Owner = "Nguyen Hoang Oanh", Priority = "Cao", Sla = "Qua han 4 gio", Status = "Cho bo sung", Notes = "Can bo sung giay uy quyen va GPKD." },
-        new() { Id = Guid.NewGuid(), Code = "REG-240607-02", CompanyName = "Urban Charge Hub", CurrentStep = "Cho legal review", Owner = "Le Tuan Kiet", Priority = "Trung binh", Sla = "Con 1 ngay", Status = "Cho tham dinh", Notes = "Da du tai lieu ky thuat." },
-        new() { Id = Guid.NewGuid(), Code = "REG-240607-03", CompanyName = "Central Plaza Parking", CurrentStep = "Chuan bi phu luc gia han", Owner = "Pham Khanh Linh", Priority = "On dinh", Sla = "Trong SLA", Status = "Cho phe duyet", Notes = "Co the day qua hop dong trong ngay." }
+        new() { Id = Guid.NewGuid(), Code = "REG-240607-01", CompanyName = "Skyline Mobility", CurrentStep = "Kiểm tra giấy phép kinh doanh", Owner = "Nguyễn Hoàng Oanh", Priority = "Cao", Sla = "Quá hạn 4 giờ", Status = "Chờ bổ sung", Notes = "Cần bổ sung giấy ủy quyền và GPKD." },
+        new() { Id = Guid.NewGuid(), Code = "REG-240607-02", CompanyName = "Urban Charge Hub", CurrentStep = "Chờ pháp chế rà soát", Owner = "Lê Tuấn Kiệt", Priority = "Trung bình", Sla = "Còn 1 ngày", Status = "Chờ thẩm định", Notes = "Đã đủ tài liệu kỹ thuật." },
+        new() { Id = Guid.NewGuid(), Code = "REG-240607-03", CompanyName = "Central Plaza Parking", CurrentStep = "Chuẩn bị phụ lục gia hạn", Owner = "Phạm Khánh Linh", Priority = "Ổn định", Sla = "Trong SLA", Status = "Chờ phê duyệt", Notes = "Có thể đẩy qua hợp đồng trong ngày." }
     ];
 
     public List<ContractRecord> Contracts { get; } =
     [
-        new() { Id = Guid.NewGuid(), Number = "DSC-2026-041", CompanyName = "Central Plaza Parking", Version = "V3.0", EffectivePeriod = "01/07/2026 - 30/06/2027", Status = "Da ky", Value = "4.2B", Owner = "Legal Team", Notes = "Da ky va cho dong bo phu luc thanh toan." },
-        new() { Id = Guid.NewGuid(), Number = "DSC-2026-057", CompanyName = "Urban Charge Hub", Version = "V2.1", EffectivePeriod = "Cho kich hoat", Status = "Cho ky", Value = "1.8B", Owner = "Sales Team", Notes = "Dang doi dai dien doanh nghiep ky so." },
-        new() { Id = Guid.NewGuid(), Number = "DSC-2026-063", CompanyName = "Skyline Mobility", Version = "V1.2", EffectivePeriod = "Ban nhap", Status = "Can bo sung", Value = "950M", Owner = "Partnership Team", Notes = "Can bo sung dieu khoan bao hanh pin." }
+        new() { Id = Guid.NewGuid(), Number = "DSC-2026-041", CompanyName = "Central Plaza Parking", Version = "V3.0", EffectivePeriod = "01/07/2026 - 30/06/2027", Status = "Đã ký", Value = "4.2B", Owner = "Nhóm pháp chế", Notes = "Đã ký và chờ đồng bộ phụ lục thanh toán." },
+        new() { Id = Guid.NewGuid(), Number = "DSC-2026-057", CompanyName = "Urban Charge Hub", Version = "V2.1", EffectivePeriod = "Chờ kích hoạt", Status = "Chờ ký", Value = "1.8B", Owner = "Nhóm kinh doanh", Notes = "Đang đợi đại diện doanh nghiệp ký số." },
+        new() { Id = Guid.NewGuid(), Number = "DSC-2026-063", CompanyName = "Skyline Mobility", Version = "V1.2", EffectivePeriod = "Bản nháp", Status = "Cần bổ sung", Value = "950M", Owner = "Nhóm đối tác", Notes = "Cần bổ sung điều khoản bảo hành pin." }
     ];
 
-    public CompanyRecord CreateCompanyDraft() => new() { Id = Guid.NewGuid(), Status = "Cho tham dinh", ContractInfo = "Chua tao hop dong" };
-    public RegistrationRecord CreateRegistrationDraft() => new() { Id = Guid.NewGuid(), Code = $"REG-{DateTime.Now:yyMMdd-HHmm}", Priority = "Trung binh", Status = "Tiep nhan", Sla = "Moi tao" };
-    public ContractRecord CreateContractDraft() => new() { Id = Guid.NewGuid(), Number = $"DSC-{DateTime.Now:yyyy}-{Contracts.Count + 1:000}", Version = "V1.0", Status = "Ban nhap", EffectivePeriod = "Cho cap nhat" };
+    public CompanyRecord CreateCompanyDraft() => new() { Id = Guid.NewGuid(), Status = "Chờ thẩm định", ContractInfo = "Chưa tạo hợp đồng" };
+    public RegistrationRecord CreateRegistrationDraft() => new() { Id = Guid.NewGuid(), Code = $"REG-{DateTime.Now:yyMMdd-HHmm}", Priority = "Trung bình", Status = "Tiếp nhận", Sla = "Mới tạo" };
+    public ContractRecord CreateContractDraft() => new() { Id = Guid.NewGuid(), Number = $"DSC-{DateTime.Now:yyyy}-{Contracts.Count + 1:000}", Version = "V1.0", Status = "Bản nháp", EffectivePeriod = "Chờ cập nhật" };
 
     public void SaveCompany(CompanyRecord draft)
     {

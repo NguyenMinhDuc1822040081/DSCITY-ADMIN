@@ -1,65 +1,65 @@
-# DSCITY Admin
+﻿# DSCITY Admin
 
-Web admin cho doanh nghiep hop tac, ho so dang ky va hop dong cua DSCITY, xay dung bang Blazor Web App tren .NET.
+Web admin cho doanh nghiệp hợp tác, hồ sơ đăng ký và hợp đồng của DSCITY, xây dựng bằng Blazor Web App trên .NET.
 
-## Chuc nang hien tai
+## Chức năng hiện tại
 
-- Dashboard tong quan
-- Quan ly doanh nghiep doi tac
-- Quan ly ho so dang ky
-- Quan ly hop dong
-- Phe duyet va bao cao
-- Them, sua, xoa, cap nhat trang thai tren giao dien
+- Bảng điều khiển tổng quan
+- Quản lý doanh nghiệp đối tác
+- Quản lý hồ sơ đăng ký
+- Quản lý hợp đồng
+- Phê duyệt và báo cáo
+- Thêm, sửa, xóa, cập nhật trạng thái trực tiếp trên giao diện
 
-## Luu y hien tai
+## Lưu ý hiện tại
 
-Du lieu dang duoc luu bang `in-memory state service`.
-Dieu nay co nghia la:
+Dữ liệu đang được lưu bằng `in-memory state service`.
+Điều này có nghĩa là:
 
-- Thao tac them, sua, xoa hoat dong ngay trong phien chay hien tai
-- Khi restart app, du lieu se quay ve bo mau mac dinh
+- Thao tác thêm, sửa, xóa hoạt động ngay trong phiên chạy hiện tại
+- Khi khởi động lại app, dữ liệu sẽ quay về bộ mẫu mặc định
 
-Neu can luu that, buoc tiep theo nen ket noi `SQL Server + EF Core`.
+Nếu cần lưu thật, bước tiếp theo nên kết nối `SQL Server + EF Core`.
 
-## Cau truc chinh
+## Cấu trúc chính
 
 - `Components/Layout`: layout, menu, topbar
-- `Components/Pages`: cac man hinh admin
-- `Services/AdminWorkspace.cs`: du lieu tam va logic CRUD co ban
-- `wwwroot/app.css`: giao dien va design system
+- `Components/Pages`: các màn hình admin
+- `Services/AdminWorkspace.cs`: dữ liệu tạm và logic CRUD cơ bản
+- `wwwroot/app.css`: giao diện và design system
 
-## Yeu cau moi truong
+## Yêu cầu môi trường
 
 - .NET SDK 10
 - Windows + PowerShell / CMD
 
-## Cach chay
+## Cách chạy
 
-Mo terminal tai thu muc project:
+Mở terminal tại thư mục project:
 
 ```powershell
 cd "D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY"
 ```
 
-Chay app:
+Chạy app:
 
 ```powershell
 cmd /c ".\start.cmd"
 ```
 
-Dung app:
+Dừng app:
 
 ```powershell
 cmd /c ".\stop.cmd"
 ```
 
-Neu muon chay truc tiep bang dotnet:
+Nếu muốn chạy trực tiếp bằng dotnet:
 
 ```powershell
 dotnet run
 ```
 
-## Dia chi local
+## Địa chỉ local
 
 - http://localhost:5285
 
@@ -69,17 +69,17 @@ dotnet run
 dotnet build
 ```
 
-## Cac file ho tro da tao
+## Các file hỗ trợ đã tạo
 
 - `start.ps1`
 - `stop.ps1`
 - `start.cmd`
 - `stop.cmd`
 
-## Huong phat trien tiep theo
+## Hướng phát triển tiếp theo
 
-1. Ket noi database that bang EF Core
-2. Them validation cho form
-3. Them modal xac nhan xoa
-4. Them tim kiem, loc, sap xep
-5. Them dang nhap va phan quyen
+1. Kết nối database thật bằng EF Core
+2. Thêm validation cho form
+3. Thêm modal xác nhận xóa
+4. Thêm tìm kiếm, lọc, sắp xếp
+5. Thêm đăng nhập và phân quyền

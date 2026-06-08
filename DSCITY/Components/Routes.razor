@@ -1,6 +1,49 @@
+﻿@implements IDisposable
+@inject AuthSession Session
+@inject NavigationManager Navigation
+
 <Router AppAssembly="typeof(Program).Assembly" NotFoundPage="typeof(Pages.NotFound)">
     <Found Context="routeData">
-        <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.AdminLayout)" />
-        <FocusOnNavigate RouteData="routeData" Selector="h1" />
+        @if (ShouldBlock(routeData.PageType))
+        {
+        }
+        else
+        {
+            <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.AdminLayout)" />
+            <FocusOnNavigate RouteData="routeData" Selector="h1" />
+        }
     </Found>
 </Router>
+
+@code {
+    protected override void OnInitialized()
+    {
+        Session.OnChange += HandleSessionChanged;
+    }
+
+    private bool ShouldBlock(Type pageType)
+    {
+        var isLoginPage = pageType == typeof(Pages.Login);
+
+        if (!Session.IsAuthenticated && !isLoginPage)
+        {
+            Navigation.NavigateTo("/login", replace: true);
+            return true;
+        }
+
+        if (Session.IsAuthenticated && isLoginPage)
+        {
+            Navigation.NavigateTo("/", replace: true);
+            return true;
+        }
+
+        return false;
+    }
+
+    private void HandleSessionChanged() => InvokeAsync(StateHasChanged);
+
+    public void Dispose()
+    {
+        Session.OnChange -= HandleSessionChanged;
+    }
+}
