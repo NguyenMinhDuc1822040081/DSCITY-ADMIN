@@ -1,0 +1,227 @@
+﻿@page "/"
+@implements IDisposable
+@inject LanguageService Loc
+@inject AdminWorkspace Workspace
+
+<PageTitle>@Loc.Text("Bảng điều khiển", "Dashboard")</PageTitle>
+
+<section class="hero-panel">
+    <div>
+        <p class="eyebrow">@Loc.Text("Bảng điều khiển quản trị", "Admin dashboard")</p>
+        <h1>@Loc.Text("Quản trị doanh nghiệp hợp tác và đăng ký hợp đồng", "Manage partner companies and contract registrations")</h1>
+        <p class="hero-copy">
+            @Loc.Text("Theo dõi hồ sơ đăng ký, hợp đồng sắp hết hạn, công việc chờ phê duyệt và sức khỏe vận hành của hệ sinh thái đối tác DSCITY.", "Track registrations, expiring contracts, pending approvals, and the operational health of the DSCITY partner ecosystem.")
+        </p>
+    </div>
+    <div class="hero-actions">
+        <a class="btn btn-hero-primary" href="companies">@Loc.Text("Mở danh sách đối tác", "Open partner list")</a>
+        <a class="btn btn-hero-secondary" href="contracts">@Loc.Text("Xem hợp đồng", "View contracts")</a>
+    </div>
+</section>
+
+<section class="stats-grid">
+    <article class="stat-card">
+        <span class="stat-label">@Loc.Text("Doanh nghiệp đang hoạt động", "Active companies")</span>
+        <strong>@activeCompanies</strong>
+        <p>@Loc.Text($"Tổng {totalCompanies} doanh nghiệp đối tác", $"{totalCompanies} partner companies in total")</p>
+    </article>
+    <article class="stat-card">
+        <span class="stat-label">@Loc.Text("Hồ sơ chờ thẩm định", "Pending reviews")</span>
+        <strong>@pendingRegistrations</strong>
+        <p>@Loc.Text($"{needSupplement} hồ sơ cần bổ sung tài liệu", $"{needSupplement} dossiers need additional documents")</p>
+    </article>
+    <article class="stat-card">
+        <span class="stat-label">@Loc.Text("Hợp đồng chờ xử lý", "Contracts in progress")</span>
+        <strong>@contractsInProgress</strong>
+        <p>@Loc.Text($"{signedContracts} hợp đồng đã ký / {totalContracts} tổng số", $"{signedContracts} signed / {totalContracts} total")</p>
+    </article>
+    <article class="stat-card">
+        <span class="stat-label">@Loc.Text("Tổng giá trị hợp đồng", "Total contract value")</span>
+        <strong>@totalContractValue</strong>
+        <p>@Loc.Text($"Tính trên {totalContracts} hợp đồng hiện có", $"Across {totalContracts} current contracts")</p>
+    </article>
+</section>
+
+<section class="content-grid">
+    <article class="panel-card">
+        <div class="panel-header">
+            <div>
+                <p class="eyebrow">@Loc.Text("Tiến trình đăng ký", "Registration pipeline")</p>
+                <h3>@Loc.Text("Trạng thái hồ sơ", "Dossier status")</h3>
+            </div>
+            <span class="badge-soft">@Loc.Text("Cập nhật lúc 09:30", "Updated at 09:30")</span>
+        </div>
+
+        <div class="pipeline-list">
+            <div class="pipeline-row"><span>@Loc.Text("Tiếp nhận hồ sơ", "Intake")</span><strong>@intakeCount</strong></div>
+            <div class="pipeline-row"><span>@Loc.Text("Kiểm tra pháp lý", "Legal review")</span><strong>@legalReviewCount</strong></div>
+            <div class="pipeline-row"><span>@Loc.Text("Chờ phê duyệt nội bộ", "Pending internal approval")</span><strong>@pendingApprovalCount</strong></div>
+            <div class="pipeline-row"><span>@Loc.Text("Chờ ký hợp đồng", "Pending signature")</span><strong>@pendingSignatureCount</strong></div>
+            <div class="pipeline-row"><span>@Loc.Text("Đã kích hoạt", "Activated")</span><strong>@activatedCount</strong></div>
+        </div>
+    </article>
+
+    <article class="panel-card">
+        <div class="panel-header">
+            <div>
+                <p class="eyebrow">@Loc.Text("Ưu tiên hôm nay", "Today priorities")</p>
+                <h3>@Loc.Text("Công việc cần xử lý ngay", "Tasks requiring immediate attention")</h3>
+            </div>
+        </div>
+
+        <div class="task-list">
+            <div class="task-item critical">
+                <div>
+                    <strong>@Loc.Text("Gia hạn hợp đồng với Central Plaza Parking", "Renew the contract with Central Plaza Parking")</strong>
+                    <p>@Loc.Text("Hết hạn sau 2 ngày, cần pháp chế và tài chính đồng ý.", "Expires in 2 days and needs legal and finance approval.")</p>
+                </div>
+                <span>@Loc.Text("SLA gấp", "Urgent SLA")</span>
+            </div>
+            <div class="task-item">
+                <div>
+                    <strong>@Loc.Text("Bổ sung GPKD cho Skyline Mobility", "Add business license for Skyline Mobility")</strong>
+                    <p>@Loc.Text("Hồ sơ đang chờ đối tác cấp bản công chứng mới.", "Waiting for the partner to provide a new notarized copy.")</p>
+                </div>
+                <span>@Loc.Text("Đang đợi", "Waiting")</span>
+            </div>
+            <div class="task-item">
+                <div>
+                    <strong>@Loc.Text("Phê duyệt biểu phí hợp tác Q3", "Approve the Q3 partnership fee table")</strong>
+                    <p>@Loc.Text("Cần xác nhận bộ phận kinh doanh trước 17:00.", "Needs business confirmation before 17:00.")</p>
+                </div>
+                <span>@Loc.Text("Nội bộ", "Internal")</span>
+            </div>
+        </div>
+    </article>
+</section>
+
+<section class="content-grid lower-grid">
+    <article class="panel-card">
+        <div class="panel-header">
+            <div>
+                <p class="eyebrow">@Loc.Text("Đối tác nổi bật", "Featured partners")</p>
+                <h3>@Loc.Text("Doanh nghiệp tiêu biểu", "Highlight companies")</h3>
+            </div>
+        </div>
+
+        <table class="admin-table">
+            <thead>
+                <tr><th>@Loc.Text("Doanh nghiệp", "Company")</th><th>@Loc.Text("Lĩnh vực", "Category")</th><th>@Loc.Text("Trạng thái", "Status")</th><th>@Loc.Text("Hợp đồng", "Contract")</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var company in featuredCompanies)
+                {
+                    <tr>
+                        <td>@company.Name</td>
+                        <td>@Loc.Translate(company.Category)</td>
+                        <td><span class="status-pill @StatusClass(company.Status)">@Loc.Translate(company.Status)</span></td>
+                        <td>@company.ContractInfo</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </article>
+
+    <article class="panel-card">
+        <div class="panel-header">
+            <div>
+                <p class="eyebrow">@Loc.Text("Tiến độ ký kết", "Signing timeline")</p>
+                <h3>@Loc.Text("Timeline hợp đồng mẫu", "Sample contract timeline")</h3>
+            </div>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item done"><strong>@Loc.Text("Tạo hồ sơ đối tác", "Create partner dossier")</strong><p>@Loc.Text("06/06/2026 - Quản trị kinh doanh", "06/06/2026 - Business admin")</p></div>
+            <div class="timeline-item done"><strong>@Loc.Text("Thẩm định pháp lý", "Legal review")</strong><p>@Loc.Text("06/06/2026 - Quản trị pháp chế", "06/06/2026 - Legal admin")</p></div>
+            <div class="timeline-item active"><strong>@Loc.Text("Trình ký hợp đồng", "Send contract for signature")</strong><p>@Loc.Text("07/06/2026 - Chờ đại diện doanh nghiệp", "07/06/2026 - Waiting for company representative")</p></div>
+            <div class="timeline-item"><strong>@Loc.Text("Kích hoạt hợp tác", "Activate partnership")</strong><p>@Loc.Text("Dự kiến sau khi ký xong", "Expected after signing is complete")</p></div>
+        </div>
+    </article>
+</section>
+
+
+
+
+@code {
+    private int totalCompanies;
+    private int activeCompanies;
+    private int totalContracts;
+    private int signedContracts;
+    private int contractsInProgress;
+    private int pendingRegistrations;
+    private int needSupplement;
+    private string totalContractValue = "0";
+
+    private int intakeCount;
+    private int legalReviewCount;
+    private int pendingApprovalCount;
+    private int pendingSignatureCount;
+    private int activatedCount;
+
+    private List<CompanyRecord> featuredCompanies = new();
+
+    protected override void OnInitialized()
+    {
+        Loc.OnChange += HandleLanguageChanged;
+        LoadData();
+    }
+
+    private void LoadData()
+    {
+        var companies = Workspace.Companies;
+        var registrations = Workspace.Registrations;
+        var contracts = Workspace.Contracts;
+
+        totalCompanies = companies.Count;
+        activeCompanies = companies.Count(x => x.Status == "Hoạt động");
+        featuredCompanies = companies.Take(3).ToList();
+
+        totalContracts = contracts.Count;
+        signedContracts = contracts.Count(x => x.Status is "Đã ký" or "Kích hoạt");
+        contractsInProgress = contracts.Count(x => x.Status is "Chờ ký" or "Cần bổ sung" or "Bản nháp");
+        totalContractValue = FormatValue(contracts.Sum(x => ParseValue(x.Value)));
+
+        pendingRegistrations = registrations.Count(x => x.Status != "Hoàn tất");
+        needSupplement = registrations.Count(x => x.Status == "Chờ bổ sung");
+
+        intakeCount = registrations.Count(x => x.Status == "Tiếp nhận");
+        legalReviewCount = registrations.Count(x => x.Status == "Chờ thẩm định");
+        pendingApprovalCount = registrations.Count(x => x.Status == "Chờ phê duyệt");
+        pendingSignatureCount = contracts.Count(x => x.Status == "Chờ ký");
+        activatedCount = contracts.Count(x => x.Status is "Đã ký" or "Kích hoạt");
+    }
+
+    private static double ParseValue(string raw)
+    {
+        if (string.IsNullOrWhiteSpace(raw)) return 0;
+        var text = raw.Trim().Replace(",", ".");
+        var multiplier = 1d;
+        if (text.EndsWith("B", StringComparison.OrdinalIgnoreCase)) { multiplier = 1_000_000_000d; text = text[..^1]; }
+        else if (text.EndsWith("M", StringComparison.OrdinalIgnoreCase)) { multiplier = 1_000_000d; text = text[..^1]; }
+        else if (text.EndsWith("K", StringComparison.OrdinalIgnoreCase)) { multiplier = 1_000d; text = text[..^1]; }
+        return double.TryParse(text.Trim(), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var n) ? n * multiplier : 0;
+    }
+
+    private static string FormatValue(double value)
+    {
+        if (value >= 1_000_000_000d) return $"{value / 1_000_000_000d:0.##}B";
+        if (value >= 1_000_000d) return $"{value / 1_000_000d:0.##}M";
+        if (value >= 1_000d) return $"{value / 1_000d:0.##}K";
+        return value.ToString("0");
+    }
+
+    private static string StatusClass(string status) => status switch
+    {
+        "Hoạt động" => "success",
+        "Chờ bổ sung" => "warning",
+        "Chờ ký" => "info",
+        _ => "muted"
+    };
+
+    private void HandleLanguageChanged() => InvokeAsync(StateHasChanged);
+
+    public void Dispose()
+    {
+        Loc.OnChange -= HandleLanguageChanged;
+    }
+}

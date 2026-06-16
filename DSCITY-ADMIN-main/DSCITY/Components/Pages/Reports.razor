@@ -1,0 +1,69 @@
+﻿@page "/reports"
+@inject AdminWorkspace Workspace
+
+<PageTitle>Báo cáo</PageTitle>
+
+<section class="page-header-card">
+    <div>
+        <p class="eyebrow">Báo cáo</p>
+        <h1>Báo cáo, cảnh báo và sức khỏe vận hành</h1>
+        <p>Quan sát tốc độ xử lý hồ sơ, tỷ lệ ký thành công và hợp đồng sắp hết hạn.</p>
+    </div>
+</section>
+
+<section class="stats-grid">
+    <article class="stat-card compact"><span class="stat-label">Tỷ lệ ký thành công</span><strong>@signRate%</strong><p>@signedContracts / @totalContracts hợp đồng đã ký</p></article>
+    <article class="stat-card compact"><span class="stat-label">Hồ sơ đang xử lý</span><strong>@activeRegistrations</strong><p>Trên tổng @totalRegistrations hồ sơ</p></article>
+    <article class="stat-card compact"><span class="stat-label">Hợp đồng chờ xử lý</span><strong>@contractsInProgress</strong><p>Đang chờ ký hoặc bổ sung</p></article>
+    <article class="stat-card compact"><span class="stat-label">Tỷ lệ hồ sơ đúng SLA</span><strong>@slaRate%</strong><p>@overdueRegistrations hồ sơ đang quá hạn</p></article>
+</section>
+
+<section class="panel-card">
+    <div class="panel-header">
+        <div>
+            <p class="eyebrow">Cảnh báo</p>
+            <h3>Danh sách ưu tiên cần xử lý</h3>
+        </div>
+    </div>
+
+    <table class="admin-table">
+        <thead>
+            <tr><th>Loại</th><th>Nội dung</th><th>Mức độ</th><th>Hạn xử lý</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Hợp đồng</td><td>@contractsInProgress hợp đồng đang chờ ký hoặc bổ sung</td><td><span class="status-pill warning">Cần chú ý</span></td><td>Theo dõi</td></tr>
+            <tr><td>Hồ sơ</td><td>@overdueRegistrations hồ sơ đang quá SLA</td><td><span class="status-pill critical">Gấp</span></td><td>Hôm nay</td></tr>
+            <tr><td>Hồ sơ</td><td>@needSupplement hồ sơ cần bổ sung tài liệu</td><td><span class="status-pill info">Theo dõi</span></td><td>Trong tuần</td></tr>
+        </tbody>
+    </table>
+</section>
+
+@code {
+    private int totalContracts;
+    private int signedContracts;
+    private int contractsInProgress;
+    private int signRate;
+
+    private int totalRegistrations;
+    private int activeRegistrations;
+    private int overdueRegistrations;
+    private int needSupplement;
+    private int slaRate;
+
+    protected override void OnInitialized()
+    {
+        var registrations = Workspace.Registrations;
+        var contracts = Workspace.Contracts;
+
+        totalContracts = contracts.Count;
+        signedContracts = contracts.Count(x => x.Status is "Đã ký" or "Kích hoạt");
+        contractsInProgress = contracts.Count(x => x.Status is "Chờ ký" or "Cần bổ sung" or "Bản nháp");
+        signRate = totalContracts == 0 ? 0 : (int)Math.Round(signedContracts * 100d / totalContracts);
+
+        totalRegistrations = registrations.Count;
+        activeRegistrations = registrations.Count(x => x.Status != "Hoàn tất");
+        overdueRegistrations = registrations.Count(x => x.Sla.Contains("Quá hạn", StringComparison.OrdinalIgnoreCase));
+        needSupplement = registrations.Count(x => x.Status == "Chờ bổ sung");
+        slaRate = totalRegistrations == 0 ? 100 : (int)Math.Round((totalRegistrations - overdueRegistrations) * 100d / totalRegistrations);
+    }
+}

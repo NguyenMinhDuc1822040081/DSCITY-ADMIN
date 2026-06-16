@@ -1,0 +1,184 @@
+﻿@page "/account"
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+@inject AuthSession Session
+
+<PageTitle>Hồ sơ quản trị viên</PageTitle>
+
+<section class="page-header-card">
+    <div>
+        <p class="eyebrow">Hồ sơ tài khoản</p>
+        <h1>Quản trị viên hệ thống</h1>
+        <p class="hero-copy">Theo dõi thông tin tài khoản, nhật ký chỉnh sửa và lịch sử thao tác của quản trị viên trong cùng một giao diện.</p>
+    </div>
+</section>
+
+<section class="account-page-shell" id="adminAccountPage">
+    <article class="panel-card account-section-card">
+        <div class="account-section-head">
+            <div>
+                <p class="eyebrow">Hồ sơ quản trị viên</p>
+                <h3>Thông tin tài khoản</h3>
+            </div>
+            <span class="badge-soft">Đồng bộ hồ sơ nội bộ</span>
+        </div>
+
+        <div class="account-summary-card">
+            <div class="account-summary-main">
+                <div class="account-avatar" id="profileAvatar">LH</div>
+                <div class="account-summary-copy">
+                    <h2 id="profileFullName">Lê Thu Hà</h2>
+                    <p id="profileRole">Quản trị viên cấp cao</p>
+                    <div class="account-status-row">
+                        <span class="account-status-dot"></span>
+                        <span id="profileStatus">Đang hoạt động</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="account-summary-action">
+                <button class="btn btn-hero-primary" type="button" id="editProfileButton">Chỉnh sửa thông tin</button>
+            </div>
+        </div>
+
+        <div class="account-facts-grid">
+            <div class="account-fact-card">
+                <span>Email</span>
+                <strong id="profileEmail">lethuha@dscity.vn</strong>
+            </div>
+            <div class="account-fact-card">
+                <span>Ngày tạo tài khoản</span>
+                <strong id="profileCreatedAt">08/06/2026</strong>
+            </div>
+            <div class="account-fact-card">
+                <span>Vai trò</span>
+                <strong id="profileRoleSecondary">Quản trị viên cấp cao</strong>
+            </div>
+            <div class="account-fact-card">
+                <span>Trạng thái hoạt động</span>
+                <strong id="profileStatusSecondary">Đang hoạt động</strong>
+            </div>
+        </div>
+    </article>
+
+    <article class="panel-card account-section-card">
+        <div class="account-section-head account-history-head">
+            <div>
+                <p class="eyebrow">Lịch sử chỉnh sửa</p>
+                <h3>Nhật ký thao tác của quản trị viên</h3>
+            </div>
+
+            <div class="history-toolbar">
+                <label class="field-group history-filter-group">
+                    <span>Từ ngày</span>
+                    <input type="date" id="historyDateFrom" />
+                </label>
+                <label class="field-group history-filter-group">
+                    <span>Đến ngày</span>
+                    <input type="date" id="historyDateTo" />
+                </label>
+                <button class="btn btn-neutral" type="button" id="resetHistoryFilters">Đặt lại bộ lọc</button>
+            </div>
+        </div>
+
+        <div class="history-table-shell">
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Thời gian</th>
+                        <th>Hành động</th>
+                        <th>Đối tượng bị tác động</th>
+                        <th>Giá trị cũ</th>
+                        <th>Giá trị mới</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody"></tbody>
+            </table>
+        </div>
+
+        <div class="history-pagination">
+            <p id="historyPageInfo">Trang 1 / 1</p>
+            <div class="history-pagination-actions">
+                <button class="btn btn-neutral" type="button" id="historyPrevPage">Trang trước</button>
+                <button class="btn btn-neutral" type="button" id="historyNextPage">Trang sau</button>
+            </div>
+        </div>
+    </article>
+
+    <div class="profile-modal-backdrop" id="profileModalBackdrop" hidden>
+        <div class="profile-modal" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
+            <div class="profile-modal-head">
+                <div>
+                    <p class="eyebrow">Chỉnh sửa hồ sơ</p>
+                    <h3 id="profileModalTitle">Cập nhật thông tin quản trị viên</h3>
+                </div>
+                <button class="profile-modal-close" type="button" id="closeProfileModal" aria-label="Đóng">×</button>
+            </div>
+
+            <div class="form-grid profile-modal-grid">
+                <label class="field-group">
+                    <span>Họ và tên</span>
+                    <input id="editFullName" type="text" />
+                </label>
+                <label class="field-group">
+                    <span>Email</span>
+                    <input id="editEmail" type="email" />
+                </label>
+                <label class="field-group">
+                    <span>Vai trò</span>
+                    <input id="editRole" type="text" />
+                </label>
+                <label class="field-group">
+                    <span>Ngày tạo tài khoản</span>
+                    <input id="editCreatedAt" type="text" />
+                </label>
+                <label class="field-group">
+                    <span>Trạng thái hoạt động</span>
+                    <select id="editStatus">
+                        <option value="Đang hoạt động">Đang hoạt động</option>
+                        <option value="Tạm khóa">Tạm khóa</option>
+                        <option value="Chờ xác minh">Chờ xác minh</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="profile-modal-actions">
+                <button class="btn btn-neutral" type="button" id="cancelProfileEdit">Hủy</button>
+                <button class="btn btn-hero-primary" type="button" id="saveProfileEdit">Lưu thông tin</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+@code {
+    private IJSObjectReference? _module;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        var digits = new string((Session.CurrentUser?.Phone ?? "0123456789").Where(char.IsDigit).ToArray());
+        var emailSeed = string.IsNullOrWhiteSpace(digits) ? "admin" : $"admin{digits[^4..]}";
+
+        _module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/admin-account.js");
+        await _module.InvokeVoidAsync("initAdminAccountPage", new
+        {
+            fullName = Session.CurrentUser?.FullName ?? "Lê Thu Hà",
+            email = $"{emailSeed}@dscity.vn",
+            role = Session.CurrentUser?.Role ?? "Quản trị viên cấp cao",
+            createdAt = "08/06/2026",
+            status = "Đang hoạt động"
+        });
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_module is not null)
+        {
+            await _module.DisposeAsync();
+        }
+    }
+}

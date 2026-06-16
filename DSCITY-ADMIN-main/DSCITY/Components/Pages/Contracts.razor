@@ -1,0 +1,186 @@
+﻿@page "/contracts"
+@implements IDisposable
+@inject AdminWorkspace Workspace
+@inject LanguageService Loc
+
+<PageTitle>@Loc.Text("Hợp đồng", "Contracts")</PageTitle>
+
+<section class="page-header-card">
+    <div>
+        <p class="eyebrow">@Loc.Text("Quản lý hợp đồng", "Contract management")</p>
+        <h1>@Loc.Text("Quản lý hợp đồng hợp tác", "Manage partnership contracts")</h1>
+        <p>@Loc.Text("Theo dõi phiên bản, điều khoản thương mại, ngày hiệu lực, gia hạn và thanh lý.", "Track versions, commercial terms, effective dates, renewals, and terminations.")</p>
+    </div>
+    <div class="header-actions">
+        <button class="btn btn-hero-primary" type="button" @onclick="CreateNew">@Loc.Text("Tạo hợp đồng mới", "Create contract")</button>
+        <button class="btn btn-hero-secondary" type="button" @onclick="MarkSigned">@Loc.Text("Đánh dấu đã ký", "Mark as signed")</button>
+    </div>
+</section>
+
+@if (!string.IsNullOrWhiteSpace(feedbackMessage))
+{
+    <div class="feedback-banner">@Loc.Translate(feedbackMessage)</div>
+}
+
+<section class="editor-grid">
+    <article class="panel-card">
+        <div class="panel-header">
+            <div>
+                <p class="eyebrow">@Loc.Text("Danh sách hợp đồng", "Contract list")</p>
+                <h3>@Workspace.Contracts.Count @Loc.Text("hợp đồng", "contracts")</h3>
+            </div>
+        </div>
+
+        <table class="admin-table interactive-table">
+            <thead>
+                <tr><th>@Loc.Text("Số hợp đồng", "Contract number")</th><th>@Loc.Text("Doanh nghiệp", "Company")</th><th>@Loc.Text("Phiên bản", "Version")</th><th>@Loc.Text("Trạng thái", "Status")</th><th></th></tr>
+            </thead>
+            <tbody>
+                @foreach (var contract in Workspace.Contracts)
+                {
+                    <tr class="@(selectedContractId == contract.Id ? "selected-row" : null)">
+                        <td><strong>@contract.Number</strong><p>@Loc.Translate(contract.EffectivePeriod)</p></td>
+                        <td>@contract.CompanyName</td>
+                        <td>@contract.Version</td>
+                        <td><span class="status-pill @StatusClass(contract.Status)">@Loc.Translate(contract.Status)</span></td>
+                        <td><button class="table-link" type="button" @onclick="() => SelectContract(contract.Id)">@Loc.Text("Mở", "Open")</button></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </article>
+
+    <article class="panel-card">
+        <div class="panel-header">
+            <div>
+                <p class="eyebrow">@Loc.Text("Biên tập hợp đồng", "Contract editor")</p>
+                <h3>@(isCreatingContract ? Loc.Text("Hợp đồng mới", "New contract") : contractDraft.Number)</h3>
+            </div>
+            <span class="status-pill @StatusClass(contractDraft.Status)">@Loc.Translate(contractDraft.Status)</span>
+        </div>
+
+        <div class="field-stack">
+            <div class="form-grid">
+                <label class="field-group"><span>@Loc.Text("Số hợp đồng", "Contract number")</span><input @bind="contractDraft.Number" /></label>
+                <label class="field-group"><span>@Loc.Text("Doanh nghiệp", "Company")</span>
+                    <select @bind="contractDraft.CompanyName">
+                        @foreach (var company in Workspace.Companies)
+                        {
+                            <option value="@company.Name">@company.Name</option>
+                        }
+                    </select>
+                </label>
+                <label class="field-group"><span>@Loc.Text("Phiên bản", "Version")</span><input @bind="contractDraft.Version" /></label>
+                <label class="field-group"><span>@Loc.Text("Giá trị", "Value")</span><input @bind="contractDraft.Value" /></label>
+                <label class="field-group"><span>@Loc.Text("Hiệu lực", "Effective period")</span><input @bind="contractDraft.EffectivePeriod" /></label>
+                <label class="field-group"><span>@Loc.Text("Chủ sở hữu", "Owner")</span><input @bind="contractDraft.Owner" /></label>
+            </div>
+            <label class="field-group"><span>@Loc.Text("Trạng thái", "Status")</span>
+                <select @bind="contractDraft.Status">
+                    @foreach (var status in ContractStatuses)
+                    {
+                        <option value="@status">@Loc.Translate(status)</option>
+                    }
+                </select>
+            </label>
+            <label class="field-group"><span>@Loc.Text("Ghi chú", "Notes")</span><textarea rows="4" @bind="contractDraft.Notes"></textarea></label>
+            <div class="action-row">
+                <button class="btn btn-hero-primary" type="button" @onclick="SaveContract">@Loc.Text("Lưu hợp đồng", "Save contract")</button>
+                <button class="btn btn-hero-secondary" type="button" @onclick="MarkSigned">@Loc.Text("Đánh dấu đã ký", "Mark as signed")</button>
+                <button class="btn btn-danger-soft" type="button" @onclick="DeleteContract" disabled="@isCreatingContract">@Loc.Text("Xóa", "Delete")</button>
+                <button class="btn btn-neutral" type="button" @onclick="ResetDraft">@Loc.Text("Hủy thay đổi", "Cancel changes")</button>
+            </div>
+
+            <div class="summary-list">
+                <div><span>@Loc.Text("Giá trị hiện tại", "Current value")</span><strong>@contractDraft.Value</strong></div>
+                <div><span>@Loc.Text("Người phụ trách", "Owner")</span><strong>@Loc.Translate(contractDraft.Owner)</strong></div>
+                <div><span>@Loc.Text("Ghi chú", "Notes")</span><strong>@Loc.Translate(contractDraft.Notes)</strong></div>
+            </div>
+        </div>
+    </article>
+</section>
+
+@code {
+    private void HandleLanguageChanged() => InvokeAsync(StateHasChanged);
+
+    private static readonly string[] ContractStatuses = ["Bản nháp", "Cần bổ sung", "Chờ ký", "Đã ký", "Kích hoạt"];
+
+    private Guid? selectedContractId;
+    private bool isCreatingContract;
+    private string? feedbackMessage;
+    private ContractRecord contractDraft = new();
+
+    protected override void OnInitialized()
+    {
+        Loc.OnChange += HandleLanguageChanged;
+        SelectContract(Workspace.Contracts.First().Id);
+    }
+
+    private void SelectContract(Guid id)
+    {
+        var contract = Workspace.Contracts.First(x => x.Id == id);
+        contractDraft = contract.Clone();
+        selectedContractId = id;
+        isCreatingContract = false;
+        feedbackMessage = $"Đang mở hợp đồng: {contract.Number}";
+    }
+
+    private void CreateNew()
+    {
+        contractDraft = Workspace.CreateContractDraft();
+        contractDraft.CompanyName = Workspace.Companies.First().Name;
+        contractDraft.Owner = "Nhóm pháp chế";
+        selectedContractId = contractDraft.Id;
+        isCreatingContract = true;
+        feedbackMessage = "Đang tạo hợp đồng mới.";
+    }
+
+    private void SaveContract()
+    {
+        Workspace.SaveContract(contractDraft);
+        isCreatingContract = false;
+        SelectContract(contractDraft.Id);
+        feedbackMessage = $"Đã lưu hợp đồng: {contractDraft.Number}";
+    }
+
+    private void MarkSigned()
+    {
+        contractDraft.Status = "Đã ký";
+        if (contractDraft.EffectivePeriod == "Chờ cập nhật" || string.IsNullOrWhiteSpace(contractDraft.EffectivePeriod))
+        {
+            contractDraft.EffectivePeriod = $"{DateTime.Now:dd/MM/yyyy} - {DateTime.Now.AddYears(1):dd/MM/yyyy}";
+        }
+        SaveContract();
+        feedbackMessage = $"Hợp đồng {contractDraft.Number} đã được đánh dấu là đã ký.";
+    }
+
+    private void ResetDraft()
+    {
+        if (isCreatingContract) { CreateNew(); return; }
+        if (selectedContractId is Guid id) { SelectContract(id); feedbackMessage = "Đã hoàn tác thay đổi chưa lưu."; }
+    }
+
+    private void DeleteContract()
+    {
+        if (selectedContractId is not Guid id || isCreatingContract) return;
+        var deletedNumber = contractDraft.Number;
+        if (Workspace.DeleteContract(id))
+        {
+            feedbackMessage = $"Đã xóa hợp đồng: {deletedNumber}";
+            if (Workspace.Contracts.Count > 0) SelectContract(Workspace.Contracts.First().Id); else CreateNew();
+        }
+    }
+
+    private static string StatusClass(string status) => status switch
+    {
+        "Đã ký" or "Kích hoạt" => "success",
+        "Chờ ký" => "info",
+        "Cần bổ sung" => "warning",
+        _ => "muted"
+    };
+
+    public void Dispose()
+    {
+        Loc.OnChange -= HandleLanguageChanged;
+    }
+}

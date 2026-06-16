@@ -1,0 +1,187 @@
+﻿@page "/registrations"
+@implements IDisposable
+@inject AdminWorkspace Workspace
+@inject LanguageService Loc
+
+<PageTitle>@Loc.Text("Hồ sơ đăng ký", "Registrations")</PageTitle>
+
+<section class="page-header-card">
+    <div>
+        <p class="eyebrow">@Loc.Text("Tiếp nhận hồ sơ", "Registration intake")</p>
+        <h1>@Loc.Text("Hồ sơ đăng ký hợp tác", "Partnership registration dossiers")</h1>
+        <p>@Loc.Text("Theo dõi tiếp nhận, thẩm định, bổ sung tài liệu và chuyển bước ký hợp đồng.", "Track intake, review, document completion, and movement into contract signing.")</p>
+    </div>
+    <div class="header-actions">
+        <button class="btn btn-hero-primary" type="button" @onclick="CreateNew">@Loc.Text("Tạo hồ sơ", "Create dossier")</button>
+        <button class="btn btn-hero-secondary" type="button" @onclick="MoveToApproval">@Loc.Text("Chuyển sang phê duyệt", "Move to approval")</button>
+    </div>
+</section>
+
+@if (!string.IsNullOrWhiteSpace(feedbackMessage))
+{
+    <div class="feedback-banner">@Loc.Translate(feedbackMessage)</div>
+}
+
+<section class="editor-grid">
+    <article class="panel-card">
+        <div class="panel-header">
+            <div>
+                <p class="eyebrow">@Loc.Text("Danh sách hồ sơ", "Dossier list")</p>
+                <h3>@Workspace.Registrations.Count @Loc.Text("hồ sơ đang mở", "open dossiers")</h3>
+            </div>
+        </div>
+
+        <table class="admin-table interactive-table">
+            <thead>
+                <tr><th>@Loc.Text("Hồ sơ", "Code")</th><th>@Loc.Text("Doanh nghiệp", "Company")</th><th>@Loc.Text("Bước hiện tại", "Current step")</th><th>@Loc.Text("Ưu tiên", "Priority")</th><th></th></tr>
+            </thead>
+            <tbody>
+                @foreach (var registration in Workspace.Registrations)
+                {
+                    <tr class="@(selectedRegistrationId == registration.Id ? "selected-row" : null)">
+                        <td><strong>@registration.Code</strong><p>@registration.Owner</p></td>
+                        <td>@registration.CompanyName</td>
+                        <td>@Loc.Translate(registration.CurrentStep)</td>
+                        <td><span class="status-pill @StatusClass(registration.Priority)">@Loc.Translate(registration.Priority)</span></td>
+                        <td><button class="table-link" type="button" @onclick="() => SelectRegistration(registration.Id)">@Loc.Text("Mở", "Open")</button></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </article>
+
+    <article class="panel-card">
+        <div class="panel-header">
+            <div>
+                <p class="eyebrow">@Loc.Text("Xử lý hồ sơ", "Dossier handling")</p>
+                <h3>@(isCreatingRegistration ? Loc.Text("Hồ sơ mới", "New dossier") : registrationDraft.Code)</h3>
+            </div>
+            <span class="status-pill @StatusClass(registrationDraft.Status)">@Loc.Translate(registrationDraft.Status)</span>
+        </div>
+
+        <div class="field-stack">
+            <div class="form-grid">
+                <label class="field-group"><span>@Loc.Text("Mã hồ sơ", "Dossier code")</span><input @bind="registrationDraft.Code" /></label>
+                <label class="field-group"><span>@Loc.Text("Doanh nghiệp", "Company")</span>
+                    <select @bind="registrationDraft.CompanyName">
+                        @foreach (var company in Workspace.Companies)
+                        {
+                            <option value="@company.Name">@company.Name</option>
+                        }
+                    </select>
+                </label>
+                <label class="field-group"><span>@Loc.Text("Bước hiện tại", "Current step")</span><input @bind="registrationDraft.CurrentStep" /></label>
+                <label class="field-group"><span>@Loc.Text("Người phụ trách", "Owner")</span><input @bind="registrationDraft.Owner" /></label>
+                <label class="field-group"><span>@Loc.Text("Ưu tiên", "Priority")</span>
+                    <select @bind="registrationDraft.Priority">
+                        @foreach (var priority in Priorities)
+                        {
+                            <option value="@priority">@Loc.Translate(priority)</option>
+                        }
+                    </select>
+                </label>
+                <label class="field-group"><span>SLA</span><input @bind="registrationDraft.Sla" /></label>
+            </div>
+            <label class="field-group"><span>@Loc.Text("Trạng thái xử lý", "Processing status")</span>
+                <select @bind="registrationDraft.Status">
+                    @foreach (var status in RegistrationStatuses)
+                    {
+                        <option value="@status">@Loc.Translate(status)</option>
+                    }
+                </select>
+            </label>
+            <label class="field-group"><span>@Loc.Text("Ghi chú", "Notes")</span><textarea rows="4" @bind="registrationDraft.Notes"></textarea></label>
+            <div class="action-row">
+                <button class="btn btn-hero-primary" type="button" @onclick="SaveRegistration">@Loc.Text("Lưu hồ sơ", "Save dossier")</button>
+                <button class="btn btn-hero-secondary" type="button" @onclick="MoveToApproval">@Loc.Text("Đánh dấu chờ phê duyệt", "Mark for approval")</button>
+                <button class="btn btn-danger-soft" type="button" @onclick="DeleteRegistration" disabled="@isCreatingRegistration">@Loc.Text("Xóa", "Delete")</button>
+                <button class="btn btn-neutral" type="button" @onclick="ResetDraft">@Loc.Text("Hủy thay đổi", "Cancel changes")</button>
+            </div>
+        </div>
+    </article>
+</section>
+
+@code {
+    private void HandleLanguageChanged() => InvokeAsync(StateHasChanged);
+
+    private static readonly string[] Priorities = ["Cao", "Trung bình", "Ổn định"];
+    private static readonly string[] RegistrationStatuses = ["Tiếp nhận", "Chờ thẩm định", "Chờ bổ sung", "Chờ phê duyệt", "Hoàn tất"];
+
+    private Guid? selectedRegistrationId;
+    private bool isCreatingRegistration;
+    private string? feedbackMessage;
+    private RegistrationRecord registrationDraft = new();
+
+    protected override void OnInitialized()
+    {
+        Loc.OnChange += HandleLanguageChanged;
+        SelectRegistration(Workspace.Registrations.First().Id);
+    }
+
+    private void SelectRegistration(Guid id)
+    {
+        var registration = Workspace.Registrations.First(x => x.Id == id);
+        registrationDraft = registration.Clone();
+        selectedRegistrationId = id;
+        isCreatingRegistration = false;
+        feedbackMessage = $"Đang xử lý hồ sơ: {registration.Code}";
+    }
+
+    private void CreateNew()
+    {
+        registrationDraft = Workspace.CreateRegistrationDraft();
+        registrationDraft.CompanyName = Workspace.Companies.First().Name;
+        selectedRegistrationId = registrationDraft.Id;
+        isCreatingRegistration = true;
+        feedbackMessage = "Đang tạo hồ sơ đăng ký mới.";
+    }
+
+    private void SaveRegistration()
+    {
+        Workspace.SaveRegistration(registrationDraft);
+        isCreatingRegistration = false;
+        SelectRegistration(registrationDraft.Id);
+        feedbackMessage = $"Đã lưu hồ sơ: {registrationDraft.Code}";
+    }
+
+    private void MoveToApproval()
+    {
+        registrationDraft.Status = "Chờ phê duyệt";
+        registrationDraft.CurrentStep = "Chờ phê duyệt nội bộ";
+        registrationDraft.Sla = "Đã đẩy sang luồng duyệt";
+        SaveRegistration();
+        feedbackMessage = $"Hồ sơ {registrationDraft.Code} đã được chuyển sang phê duyệt.";
+    }
+
+    private void ResetDraft()
+    {
+        if (isCreatingRegistration) { CreateNew(); return; }
+        if (selectedRegistrationId is Guid id) { SelectRegistration(id); feedbackMessage = "Đã hoàn tác thay đổi chưa lưu."; }
+    }
+
+    private void DeleteRegistration()
+    {
+        if (selectedRegistrationId is not Guid id || isCreatingRegistration) return;
+        var deletedCode = registrationDraft.Code;
+        if (Workspace.DeleteRegistration(id))
+        {
+            feedbackMessage = $"Đã xóa hồ sơ: {deletedCode}";
+            if (Workspace.Registrations.Count > 0) SelectRegistration(Workspace.Registrations.First().Id); else CreateNew();
+        }
+    }
+
+    private static string StatusClass(string status) => status switch
+    {
+        "Cao" => "warning",
+        "Chờ phê duyệt" => "info",
+        "Hoàn tất" => "success",
+        "Ổn định" => "success",
+        "Chờ bổ sung" => "warning",
+        _ => "muted"
+    };
+
+    public void Dispose()
+    {
+        Loc.OnChange -= HandleLanguageChanged;
+    }
+}

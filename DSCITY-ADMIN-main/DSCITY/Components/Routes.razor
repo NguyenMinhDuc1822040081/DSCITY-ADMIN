@@ -1,0 +1,64 @@
+﻿@implements IDisposable
+@inject AuthSession Session
+@inject NavigationManager Navigation
+
+<Router AppAssembly="typeof(Program).Assembly" NotFoundPage="typeof(Pages.NotFound)">
+    <Found Context="routeData">
+        @if (ShouldBlock(routeData.PageType))
+        {
+        }
+        else
+        {
+            <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.AdminLayout)" />
+            <FocusOnNavigate RouteData="routeData" Selector="h1" />
+        }
+    </Found>
+</Router>
+
+@code {
+    protected override void OnInitialized()
+    {
+        Session.OnChange += HandleSessionChanged;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Session.InitializeAsync();
+        }
+    }
+
+    private bool ShouldBlock(Type pageType)
+    {
+        // Wait until the persisted session is restored before redirecting,
+        // otherwise a page refresh would bounce the user back to /login.
+        if (!Session.IsInitialized)
+        {
+            return true;
+        }
+
+        var isLoginPage = pageType == typeof(Pages.Login);
+
+        if (!Session.IsAuthenticated && !isLoginPage)
+        {
+            Navigation.NavigateTo("/login", replace: true);
+            return true;
+        }
+
+        if (Session.IsAuthenticated && isLoginPage)
+        {
+            Navigation.NavigateTo("/", replace: true);
+            return true;
+        }
+
+        return false;
+    }
+
+    private void HandleSessionChanged() => InvokeAsync(StateHasChanged);
+
+    public void Dispose()
+    {
+        Session.OnChange -= HandleSessionChanged;
+    }
+}
