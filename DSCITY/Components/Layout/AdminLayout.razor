@@ -25,10 +25,10 @@
                     <span class="meta-dot"></span>
                     @Loc.Text("12 hồ sơ cần xử lý hôm nay", "12 dossiers need attention today")
                 </div>
-                <div class="user-card">
+                <a class="user-card user-card-link" href="account">
                     <strong>@(Session.CurrentUser?.FullName ?? "DSCITY")</strong>
                     <span>@(Session.CurrentUser is null ? Loc.Text("Khách", "Guest") : Loc.Text(Session.CurrentUser.Role, Session.CurrentUser.Role == "Quản trị viên cấp cao" ? "Super Admin" : "Partner Admin"))</span>
-                </div>
+                </a>
                 <button class="btn btn-neutral btn-logout" type="button" @onclick="Logout">@Loc.Text("Đăng xuất", "Sign out")</button>
             </div>
         </header>
