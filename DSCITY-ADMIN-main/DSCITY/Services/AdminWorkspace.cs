@@ -56,7 +56,7 @@ public class AdminWorkspace
         if (existing is null)
         {
             var clone = draft.Clone();
-            clone.Seq = 0;
+            clone.Seq = (db.Companies.Any() ? db.Companies.Max(x => x.Seq) : 0) + 1;
             db.Companies.Add(clone);
             db.SaveChanges();
             return;
@@ -90,7 +90,7 @@ public class AdminWorkspace
         if (existing is null)
         {
             var clone = draft.Clone();
-            clone.Seq = 0;
+            clone.Seq = (db.Registrations.Any() ? db.Registrations.Max(x => x.Seq) : 0) + 1;
             db.Registrations.Add(clone);
             db.SaveChanges();
             return;
@@ -124,7 +124,7 @@ public class AdminWorkspace
         if (existing is null)
         {
             var clone = draft.Clone();
-            clone.Seq = 0;
+            clone.Seq = (db.Contracts.Any() ? db.Contracts.Max(x => x.Seq) : 0) + 1;
             db.Contracts.Add(clone);
             db.SaveChanges();
             return;

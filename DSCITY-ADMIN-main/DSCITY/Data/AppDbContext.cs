@@ -21,7 +21,7 @@ public sealed class AppDbContext : DbContext
             entity.ToTable("Companies");
             entity.HasKey(x => x.Id);
             entity.Property(x => x.Id).ValueGeneratedNever();
-            entity.Property(x => x.Seq).ValueGeneratedOnAdd();
+            entity.Property(x => x.Seq).ValueGeneratedNever();
             entity.HasIndex(x => x.Seq);
         });
 
@@ -30,7 +30,7 @@ public sealed class AppDbContext : DbContext
             entity.ToTable("Registrations");
             entity.HasKey(x => x.Id);
             entity.Property(x => x.Id).ValueGeneratedNever();
-            entity.Property(x => x.Seq).ValueGeneratedOnAdd();
+            entity.Property(x => x.Seq).ValueGeneratedNever();
             entity.HasIndex(x => x.Seq);
         });
 
@@ -39,7 +39,7 @@ public sealed class AppDbContext : DbContext
             entity.ToTable("Contracts");
             entity.HasKey(x => x.Id);
             entity.Property(x => x.Id).ValueGeneratedNever();
-            entity.Property(x => x.Seq).ValueGeneratedOnAdd();
+            entity.Property(x => x.Seq).ValueGeneratedNever();
             entity.HasIndex(x => x.Seq);
         });
 

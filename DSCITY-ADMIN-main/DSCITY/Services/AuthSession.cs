@@ -36,31 +36,6 @@ public sealed class AccountDirectory
         return true;
     }
 
-    public bool Register(string fullName, string phone, string password, out string? error)
-    {
-        using var db = _factory.CreateDbContext();
-        if (db.Users.Any(x => x.Phone == phone))
-        {
-            error = "Số điện thoại đã tồn tại.";
-            return false;
-        }
-
-        var user = new PortalUser
-        {
-            Id = Guid.NewGuid(),
-            FullName = fullName,
-            Phone = phone,
-            Role = "Quản trị viên đối tác"
-        };
-        user.PasswordHash = _hasher.HashPassword(user, password);
-
-        db.Users.Add(user);
-        db.SaveChanges();
-
-        error = null;
-        return true;
-    }
-
     public PortalUser? FindByPhone(string phone)
     {
         using var db = _factory.CreateDbContext();
