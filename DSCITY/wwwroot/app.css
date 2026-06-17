@@ -1292,3 +1292,36 @@ h1:focus {
         letter-spacing: 0.08em;
     }
 }
+
+.account-header-card {
+    display: block;
+}
+
+.account-header-brand {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.account-header-logo {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    flex: 0 0 auto;
+}
+
+.account-header-brand .hero-copy {
+    margin-bottom: 0;
+}
+
+@media (max-width: 640px) {
+    .account-header-brand {
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    .account-header-logo {
+        width: 56px;
+        height: 56px;
+    }
+}

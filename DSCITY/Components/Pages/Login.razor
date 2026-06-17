@@ -26,15 +26,9 @@
             </div>
         </div>
 
-        <div class="auth-toggle">
-            <button class="auth-tab @(isRegister ? null : "active")" type="button" @onclick="() => SwitchMode(false)">@Loc.Text("Đăng nhập", "Sign in")</button>
-            <button class="auth-tab @(isRegister ? "active" : null)" type="button" @onclick="() => SwitchMode(true)">@Loc.Text("Đăng ký", "Register")</button>
-        </div>
-
         <div class="auth-copy">
             <p class="eyebrow">@Loc.Text("Chào mừng đến với DSCITY", "Welcome to DSCITY")</p>
-            <h2>@Loc.Text(isRegister ? "Tạo tài khoản quản trị" : "Đăng nhập để tiếp tục", isRegister ? "Create an admin account" : "Sign in to continue")</h2>
-            <p>@Loc.Text("Chỉ người có tài khoản mới có thể truy cập trang quản trị.", "Only users with an account can access the admin portal.")</p>
+            <h2>@Loc.Text("Đăng nhập quản trị", "Administrator sign in")</h2>
         </div>
 
         @if (!string.IsNullOrWhiteSpace(feedbackMessage))
@@ -42,43 +36,22 @@
             <div class="feedback-banner">@feedbackMessage</div>
         }
 
-        <div class="field-stack auth-form">
-            @if (isRegister)
-            {
-                <label class="field-group"><span>@Loc.Text("Họ và tên", "Full name")</span><input @bind="registerFullName" /></label>
-            }
+        <form class="field-stack auth-form" @onsubmit="HandleSubmitAsync">
             <label class="field-group"><span>@Loc.Text("Số điện thoại", "Phone number")</span><input @bind="phone" /></label>
             <label class="field-group"><span>@Loc.Text("Mật khẩu", "Password")</span><input type="password" @bind="password" /></label>
-            @if (isRegister)
-            {
-                <label class="field-group"><span>@Loc.Text("Xác nhận mật khẩu", "Confirm password")</span><input type="password" @bind="confirmPassword" /></label>
-            }
 
-            <button class="btn btn-hero-primary auth-submit" type="button" @onclick="SubmitAsync">
-                @Loc.Text(isRegister ? "Tạo tài khoản" : "Đăng nhập", isRegister ? "Create account" : "Sign in")
+            <button class="btn btn-hero-primary auth-submit" type="submit">
+                @Loc.Text("Đăng nhập", "Sign in")
             </button>
-
-            <div class="auth-divider"><span>@Loc.Text("hoặc", "or")</span></div>
-
-            <button class="btn btn-auth-secondary" type="button">@Loc.Text("Đăng nhập với Google", "Continue with Google")</button>
-            <button class="btn btn-auth-secondary" type="button">@Loc.Text("Đăng nhập với Apple", "Continue with Apple")</button>
-        </div>
-
-        <p class="auth-footnote">
-            @Loc.Text(isRegister ? "Đã có tài khoản?" : "Chưa có tài khoản?", isRegister ? "Already have an account?" : "No account yet?")
-            <button class="link-button" type="button" @onclick="ToggleMode">@Loc.Text(isRegister ? "Đăng nhập" : "Đăng ký ngay", isRegister ? "Sign in" : "Register now")</button>
-        </p>
+        </form>
 
         <p class="auth-hint">@Loc.Text("Tài khoản mẫu: 0123456789 / 123456", "Demo account: 0123456789 / 123456")</p>
     </section>
 </div>
 
 @code {
-    private bool isRegister;
     private string phone = string.Empty;
     private string password = string.Empty;
-    private string confirmPassword = string.Empty;
-    private string registerFullName = string.Empty;
     private string? feedbackMessage;
 
     protected override void OnInitialized()
@@ -89,24 +62,9 @@
 
     private void SetLanguage(bool isEnglish) => Loc.SetEnglish(isEnglish);
 
-    private void SwitchMode(bool register)
+    private async Task HandleSubmitAsync()
     {
-        isRegister = register;
-        feedbackMessage = null;
-        password = string.Empty;
-        confirmPassword = string.Empty;
-    }
-
-    private void ToggleMode() => SwitchMode(!isRegister);
-
-    private Task SubmitAsync()
-    {
-        if (isRegister)
-        {
-            return RegisterAsync();
-        }
-
-        return LoginAsync();
+        await LoginAsync();
     }
 
     private Task LoginAsync()
@@ -118,40 +76,6 @@
         }
 
         Session.SignIn(user);
-        Navigation.NavigateTo("/", replace: true);
-        return Task.CompletedTask;
-    }
-
-    private Task RegisterAsync()
-    {
-        if (string.IsNullOrWhiteSpace(registerFullName) || string.IsNullOrWhiteSpace(phone) || string.IsNullOrWhiteSpace(password))
-        {
-            feedbackMessage = Loc.Text("Vui lòng nhập đầy đủ thông tin.", "Please fill in all required fields.");
-            return Task.CompletedTask;
-        }
-
-        if (password != confirmPassword)
-        {
-            feedbackMessage = Loc.Text("Mật khẩu xác nhận không khớp.", "Password confirmation does not match.");
-            return Task.CompletedTask;
-        }
-
-        if (!Accounts.Register(registerFullName, phone, password, out var error))
-        {
-            feedbackMessage = Loc.IsEnglish switch
-            {
-                true when error == "Số điện thoại đã tồn tại." => "This phone number already exists.",
-                _ => error
-            };
-            return Task.CompletedTask;
-        }
-
-        Accounts.ValidateCredentials(phone, password, out var user);
-        if (user is not null)
-        {
-            Session.SignIn(user);
-        }
-
         Navigation.NavigateTo("/", replace: true);
         return Task.CompletedTask;
     }
