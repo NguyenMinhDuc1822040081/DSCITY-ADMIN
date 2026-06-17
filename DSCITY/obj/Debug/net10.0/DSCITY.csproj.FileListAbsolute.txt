@@ -1,88 +1,88 @@
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\EmbeddedAttribute.cs
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\ValidatableTypeAttribute.cs
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\rpswa.dswa.cache.json
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\DSCITY.GeneratedMSBuildEditorConfig.editorconfig
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\DSCITY.AssemblyInfoInputs.cache
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\DSCITY.AssemblyInfo.cs
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\DSCITY.csproj.CoreCompileInputs.cache
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\DSCITY.MvcApplicationPartsAssemblyInfo.cache
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\bin\Debug\net10.0\appsettings.Development.json
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\bin\Debug\net10.0\appsettings.json
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\bin\Debug\net10.0\DSCITY.staticwebassets.runtime.json
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\bin\Debug\net10.0\DSCITY.staticwebassets.endpoints.json
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\bin\Debug\net10.0\DSCITY.exe
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\bin\Debug\net10.0\DSCITY.deps.json
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\bin\Debug\net10.0\DSCITY.runtimeconfig.json
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\bin\Debug\net10.0\DSCITY.dll
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\bin\Debug\net10.0\DSCITY.pdb
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\rjimswa.dswa.cache.json
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\scopedcss\Components\Layout\AdminLayout.razor.rz.scp.css
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\scopedcss\Components\Layout\NavMenu.razor.rz.scp.css
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\scopedcss\Components\Layout\ReconnectModal.razor.rz.scp.css
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\scopedcss\bundle\DSCITY.styles.css
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\scopedcss\projectbundle\DSCITY.bundle.scp.css
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\wvkkv39idm-{0}-bqjiyaj88i-bqjiyaj88i.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\jpya7qu4l3-{0}-c2jlpeoesf-c2jlpeoesf.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\no996h2o2o-{0}-erw9l3u2r3-erw9l3u2r3.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\vhryhoeiwf-{0}-aexeepp0ev-aexeepp0ev.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\7mbq0klrs9-{0}-d7shbmvgxk-d7shbmvgxk.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\r72npqhlpj-{0}-ausgxo2sd3-ausgxo2sd3.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\sxdihcojlf-{0}-k8d9w2qqmf-k8d9w2qqmf.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\onnxdhafly-{0}-cosvhxvwiu-cosvhxvwiu.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\d09mi40oga-{0}-ub07r2b239-ub07r2b239.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\kddhnmfwc1-{0}-fvhpjtyr6v-fvhpjtyr6v.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\r45nebnaf2-{0}-b7pk76d08c-b7pk76d08c.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\z4sj3vvc61-{0}-fsbi9cje9m-fsbi9cje9m.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\03cej30icc-{0}-rzd6atqjts-rzd6atqjts.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\4nb5ltv3j7-{0}-ee0r1s7dh0-ee0r1s7dh0.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\oyj1zmmln7-{0}-dxx9fxp4il-dxx9fxp4il.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\poet700krf-{0}-jd9uben2k1-jd9uben2k1.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\ixu471p7zs-{0}-khv3u5hwcm-khv3u5hwcm.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\odqipe39ta-{0}-r4e9w2rdcm-r4e9w2rdcm.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\ynvbpcw76d-{0}-lcd1t2u6c8-lcd1t2u6c8.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\p1e1f7t6c4-{0}-c2oey78nd0-c2oey78nd0.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\3e1hd0vtbu-{0}-tdbxkamptv-tdbxkamptv.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\3saj6dux6k-{0}-j5mq2jizvt-j5mq2jizvt.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\dit0er5is0-{0}-06098lyss8-06098lyss8.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\4cujtf410y-{0}-nvvlpmu67g-nvvlpmu67g.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\fmnhp5fi7j-{0}-s35ty4nyc5-s35ty4nyc5.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\6un9d07xt7-{0}-pj5nd1wqec-pj5nd1wqec.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\po9wpyubyc-{0}-46ein0sx1k-46ein0sx1k.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\rkecq3c8nn-{0}-v0zj4ognzu-v0zj4ognzu.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\3zqvf5v0z1-{0}-37tfw0ft22-37tfw0ft22.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\13x5wewe69-{0}-hrwsygsryq-hrwsygsryq.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\grzq022uo2-{0}-pk9g2wxc8p-pk9g2wxc8p.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\5wkchi16nl-{0}-ft3s53vfgj-ft3s53vfgj.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\w1r8kfir28-{0}-6cfz1n2cew-6cfz1n2cew.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\rtzb7gs64f-{0}-6pdc2jztkx-6pdc2jztkx.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\9ffxp2k66t-{0}-493y06b0oq-493y06b0oq.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\s2n705amm9-{0}-iovd86k7lj-iovd86k7lj.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\9khacdkayu-{0}-vr1egmr9el-vr1egmr9el.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\4i5l2wt4bh-{0}-kbrnm935zg-kbrnm935zg.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\gywa6x2duk-{0}-jj8uyg4cgr-jj8uyg4cgr.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\n54dyhzbbf-{0}-y7v9cxd14o-y7v9cxd14o.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\0lx2d2r6su-{0}-notf2xhcfb-notf2xhcfb.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\taedhs3wr6-{0}-h1s4sie4z3-h1s4sie4z3.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\chnlxure4i-{0}-63fj8s7r0e-63fj8s7r0e.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\cffsites4u-{0}-0j3bgjxly4-0j3bgjxly4.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\0485mi7l0k-{0}-abdmv1u4y3-abdmv1u4y3.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\hzavsancki-{0}-ej96puwv3k-ej96puwv3k.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\pmofl04lf7-{0}-cj5793hgrt-cj5793hgrt.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\o93z6780px-{0}-khrzzpie4h-khrzzpie4h.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\ix0xn4zo39-{0}-khrzzpie4h-khrzzpie4h.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\staticwebassets.build.json
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\staticwebassets.build.json.cache
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\staticwebassets.development.json
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\staticwebassets.build.endpoints.json
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\swae.build.ex.cache
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\DSCITY.dll
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\refint\DSCITY.dll
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\DSCITY.pdb
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\DSCITY.genruntimeconfig.cache
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\ref\DSCITY.dll
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\zwts3d0k70-{0}-z8owtblcsl-z8owtblcsl.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\DSCITY.sourcelink.json
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\90i2vzk8e5-{0}-zmnztjnsau-zmnztjnsau.gz
-D:\New folder\DSCITY-AD\DSCITY-ADMIN\DSCITY\obj\Debug\net10.0\compressed\kjq8txpoc5-{0}-dm3khbuqc3-dm3khbuqc3.gz
+D:\DSCITY-ADMIN-main\DSCITY\bin\Debug\net10.0\appsettings.Development.json
+D:\DSCITY-ADMIN-main\DSCITY\bin\Debug\net10.0\appsettings.json
+D:\DSCITY-ADMIN-main\DSCITY\bin\Debug\net10.0\DSCITY.staticwebassets.runtime.json
+D:\DSCITY-ADMIN-main\DSCITY\bin\Debug\net10.0\DSCITY.staticwebassets.endpoints.json
+D:\DSCITY-ADMIN-main\DSCITY\bin\Debug\net10.0\DSCITY.exe
+D:\DSCITY-ADMIN-main\DSCITY\bin\Debug\net10.0\DSCITY.deps.json
+D:\DSCITY-ADMIN-main\DSCITY\bin\Debug\net10.0\DSCITY.runtimeconfig.json
+D:\DSCITY-ADMIN-main\DSCITY\bin\Debug\net10.0\DSCITY.dll
+D:\DSCITY-ADMIN-main\DSCITY\bin\Debug\net10.0\DSCITY.pdb
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\EmbeddedAttribute.cs
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\ValidatableTypeAttribute.cs
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\rpswa.dswa.cache.json
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\DSCITY.GeneratedMSBuildEditorConfig.editorconfig
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\DSCITY.AssemblyInfoInputs.cache
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\DSCITY.AssemblyInfo.cs
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\DSCITY.csproj.CoreCompileInputs.cache
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\DSCITY.MvcApplicationPartsAssemblyInfo.cache
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\rjimswa.dswa.cache.json
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\scopedcss\Components\Layout\AdminLayout.razor.rz.scp.css
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\scopedcss\Components\Layout\NavMenu.razor.rz.scp.css
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\scopedcss\Components\Layout\ReconnectModal.razor.rz.scp.css
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\scopedcss\bundle\DSCITY.styles.css
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\scopedcss\projectbundle\DSCITY.bundle.scp.css
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\90i2vzk8e5-{0}-19cmbtcfwy-19cmbtcfwy.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\wvkkv39idm-{0}-bqjiyaj88i-bqjiyaj88i.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\jpya7qu4l3-{0}-c2jlpeoesf-c2jlpeoesf.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\no996h2o2o-{0}-erw9l3u2r3-erw9l3u2r3.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\vhryhoeiwf-{0}-aexeepp0ev-aexeepp0ev.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\7mbq0klrs9-{0}-d7shbmvgxk-d7shbmvgxk.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\r72npqhlpj-{0}-ausgxo2sd3-ausgxo2sd3.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\sxdihcojlf-{0}-k8d9w2qqmf-k8d9w2qqmf.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\onnxdhafly-{0}-cosvhxvwiu-cosvhxvwiu.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\d09mi40oga-{0}-ub07r2b239-ub07r2b239.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\kddhnmfwc1-{0}-fvhpjtyr6v-fvhpjtyr6v.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\r45nebnaf2-{0}-b7pk76d08c-b7pk76d08c.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\z4sj3vvc61-{0}-fsbi9cje9m-fsbi9cje9m.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\03cej30icc-{0}-rzd6atqjts-rzd6atqjts.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\4nb5ltv3j7-{0}-ee0r1s7dh0-ee0r1s7dh0.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\oyj1zmmln7-{0}-dxx9fxp4il-dxx9fxp4il.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\poet700krf-{0}-jd9uben2k1-jd9uben2k1.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\ixu471p7zs-{0}-khv3u5hwcm-khv3u5hwcm.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\odqipe39ta-{0}-r4e9w2rdcm-r4e9w2rdcm.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\ynvbpcw76d-{0}-lcd1t2u6c8-lcd1t2u6c8.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\p1e1f7t6c4-{0}-c2oey78nd0-c2oey78nd0.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\3e1hd0vtbu-{0}-tdbxkamptv-tdbxkamptv.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\3saj6dux6k-{0}-j5mq2jizvt-j5mq2jizvt.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\dit0er5is0-{0}-06098lyss8-06098lyss8.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\4cujtf410y-{0}-nvvlpmu67g-nvvlpmu67g.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\fmnhp5fi7j-{0}-s35ty4nyc5-s35ty4nyc5.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\6un9d07xt7-{0}-pj5nd1wqec-pj5nd1wqec.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\po9wpyubyc-{0}-46ein0sx1k-46ein0sx1k.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\rkecq3c8nn-{0}-v0zj4ognzu-v0zj4ognzu.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\3zqvf5v0z1-{0}-37tfw0ft22-37tfw0ft22.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\13x5wewe69-{0}-hrwsygsryq-hrwsygsryq.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\grzq022uo2-{0}-pk9g2wxc8p-pk9g2wxc8p.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\5wkchi16nl-{0}-ft3s53vfgj-ft3s53vfgj.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\zwts3d0k70-{0}-lpj25mhl2r-lpj25mhl2r.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\w1r8kfir28-{0}-6cfz1n2cew-6cfz1n2cew.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\rtzb7gs64f-{0}-6pdc2jztkx-6pdc2jztkx.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\9ffxp2k66t-{0}-493y06b0oq-493y06b0oq.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\s2n705amm9-{0}-iovd86k7lj-iovd86k7lj.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\9khacdkayu-{0}-vr1egmr9el-vr1egmr9el.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\4i5l2wt4bh-{0}-kbrnm935zg-kbrnm935zg.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\gywa6x2duk-{0}-jj8uyg4cgr-jj8uyg4cgr.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\n54dyhzbbf-{0}-y7v9cxd14o-y7v9cxd14o.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\0lx2d2r6su-{0}-notf2xhcfb-notf2xhcfb.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\taedhs3wr6-{0}-h1s4sie4z3-h1s4sie4z3.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\chnlxure4i-{0}-63fj8s7r0e-63fj8s7r0e.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\cffsites4u-{0}-0j3bgjxly4-0j3bgjxly4.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\0485mi7l0k-{0}-cyz5k529gx-cyz5k529gx.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\hzavsancki-{0}-ne14ti1q68-ne14ti1q68.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\pmofl04lf7-{0}-ig5xotzpx5-ig5xotzpx5.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\o93z6780px-{0}-khrzzpie4h-khrzzpie4h.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\ix0xn4zo39-{0}-khrzzpie4h-khrzzpie4h.gz
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\staticwebassets.build.json
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\staticwebassets.build.json.cache
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\staticwebassets.development.json
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\staticwebassets.build.endpoints.json
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\swae.build.ex.cache
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\DSCITY.dll
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\refint\DSCITY.dll
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\DSCITY.pdb
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\DSCITY.genruntimeconfig.cache
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\ref\DSCITY.dll
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\DSCITY.sourcelink.json
+D:\DSCITY-ADMIN-main\DSCITY\obj\Debug\net10.0\compressed\kjq8txpoc5-{0}-vfzsemjnnh-vfzsemjnnh.gz
