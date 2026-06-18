@@ -21,11 +21,15 @@
                     <button class="lang-button @(Loc.IsEnglish ? null : "active")" type="button" @onclick="() => SetLanguage(false)">VI</button>
                     <button class="lang-button @(Loc.IsEnglish ? "active" : null)" type="button" @onclick="() => SetLanguage(true)">EN</button>
                 </div>
+<<<<<<< HEAD
                 <div class="meta-chip">
                     <span class="meta-dot"></span>
                     @Loc.Text("12 hồ sơ cần xử lý hôm nay", "12 dossiers need attention today")
                 </div>
                 <div class="user-card">
+=======
+                <a class="user-card user-card-link" href="account">
+>>>>>>> main
                     <strong>@(Session.CurrentUser?.FullName ?? "DSCITY")</strong>
                     <span>@(Session.CurrentUser is null ? Loc.Text("Khách", "Guest") : Loc.Text(Session.CurrentUser.Role, Session.CurrentUser.Role == "Quản trị viên cấp cao" ? "Super Admin" : "Partner Admin"))</span>
                 </div>
