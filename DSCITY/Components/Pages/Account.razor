@@ -2,16 +2,18 @@
 @implements IAsyncDisposable
 @inject IJSRuntime JS
 @inject AuthSession Session
+@inject LanguageService Loc
+@inject AdminWorkspace Workspace
 
-<PageTitle>Hồ sơ quản trị viên</PageTitle>
+<PageTitle>@Loc.Text("Hồ sơ quản trị viên", "Administrator profile")</PageTitle>
 
 <section class="page-header-card account-header-card">
     <div class="account-header-brand">
         <img class="account-header-logo" src="dscity-logo.png" alt="Logo DSCITY" />
         <div>
-            <p class="eyebrow">Hồ sơ tài khoản</p>
-            <h1>Quản trị viên hệ thống</h1>
-            <p class="hero-copy">Theo dõi thông tin tài khoản, nhật ký chỉnh sửa và lịch sử thao tác của quản trị viên trong cùng một giao diện.</p>
+            <p class="eyebrow">@Loc.Text("Hồ sơ tài khoản", "Account profile")</p>
+            <h1>@Loc.Text("Quản trị viên hệ thống", "System administrator")</h1>
+            <p class="hero-copy">@Loc.Text("Theo dõi thông tin tài khoản, nhật ký chỉnh sửa và lịch sử thao tác của quản trị viên trong cùng một giao diện.", "Track account details, edit logs, and administrator activity history in one unified view.")</p>
         </div>
     </div>
 </section>
@@ -20,8 +22,8 @@
     <article class="panel-card account-section-card">
         <div class="account-section-head">
             <div>
-                <p class="eyebrow">Hồ sơ quản trị viên</p>
-                <h3>Thông tin tài khoản</h3>
+                <p class="eyebrow">@Loc.Text("Hồ sơ quản trị viên", "Administrator profile")</p>
+                <h3>@Loc.Text("Thông tin tài khoản", "Account information")</h3>
             </div>
         </div>
 
@@ -29,36 +31,36 @@
             <div class="account-summary-main">
                 <div class="account-avatar" id="profileAvatar">LH</div>
                 <div class="account-summary-copy">
-                    <h2 id="profileFullName">Lê Thu Hà</h2>
-                    <p id="profileRole">Quản trị viên cấp cao</p>
+                    <h2 id="profileFullName">@DisplayFullName</h2>
+                    <p id="profileRole">@DisplayRole</p>
                     <div class="account-status-row">
                         <span class="account-status-dot"></span>
-                        <span id="profileStatus">Đang hoạt động</span>
+                        <span id="profileStatus">@DisplayStatus</span>
                     </div>
                 </div>
             </div>
 
             <div class="account-summary-action">
-                <button class="btn btn-hero-primary" type="button" id="editProfileButton">Chỉnh sửa thông tin</button>
+                <button class="btn btn-hero-primary" type="button" id="editProfileButton">@Loc.Text("Chỉnh sửa thông tin", "Edit profile")</button>
             </div>
         </div>
 
         <div class="account-facts-grid">
             <div class="account-fact-card">
-                <span>Email</span>
-                <strong id="profileEmail">lethuha@dscity.vn</strong>
+                <span>@Loc.Text("Email", "Email")</span>
+                <strong id="profileEmail">@DisplayEmail</strong>
             </div>
             <div class="account-fact-card">
-                <span>Ngày tạo tài khoản</span>
+                <span>@Loc.Text("Ngày tạo tài khoản", "Created on")</span>
                 <strong id="profileCreatedAt">08/06/2026</strong>
             </div>
             <div class="account-fact-card">
-                <span>Vai trò</span>
-                <strong id="profileRoleSecondary">Quản trị viên cấp cao</strong>
+                <span>@Loc.Text("Vai trò", "Role")</span>
+                <strong id="profileRoleSecondary">@DisplayRole</strong>
             </div>
             <div class="account-fact-card">
-                <span>Trạng thái hoạt động</span>
-                <strong id="profileStatusSecondary">Đang hoạt động</strong>
+                <span>@Loc.Text("Trạng thái hoạt động", "Account status")</span>
+                <strong id="profileStatusSecondary">@DisplayStatus</strong>
             </div>
         </div>
     </article>
@@ -66,20 +68,20 @@
     <article class="panel-card account-section-card">
         <div class="account-section-head account-history-head">
             <div>
-                <p class="eyebrow">Lịch sử chỉnh sửa</p>
-                <h3>Nhật ký thao tác của quản trị viên</h3>
+                <p class="eyebrow">@Loc.Text("Lịch sử chỉnh sửa", "Edit history")</p>
+                <h3>@Loc.Text("Nhật ký thao tác của quản trị viên", "Administrator activity log")</h3>
             </div>
 
             <div class="history-toolbar">
                 <label class="field-group history-filter-group">
-                    <span>Từ ngày</span>
-                    <input type="date" id="historyDateFrom" />
+                    <span>@Loc.Text("Từ ngày", "From date")</span>
+                    <input type="date" value="@fromDate" @onchange="OnFromDateChanged" />
                 </label>
                 <label class="field-group history-filter-group">
-                    <span>Đến ngày</span>
-                    <input type="date" id="historyDateTo" />
+                    <span>@Loc.Text("Đến ngày", "To date")</span>
+                    <input type="date" value="@toDate" @onchange="OnToDateChanged" />
                 </label>
-                <button class="btn btn-neutral" type="button" id="resetHistoryFilters">Đặt lại bộ lọc</button>
+                <button class="btn btn-neutral" type="button" @onclick="ResetHistoryFilters">@Loc.Text("Đặt lại bộ lọc", "Reset filters")</button>
             </div>
         </div>
 
@@ -87,22 +89,42 @@
             <table class="history-table">
                 <thead>
                     <tr>
-                        <th>Thời gian</th>
-                        <th>Hành động</th>
-                        <th>Đối tượng bị tác động</th>
-                        <th>Giá trị cũ</th>
-                        <th>Giá trị mới</th>
+                        <th>@Loc.Text("Thời gian", "Timestamp")</th>
+                        <th>@Loc.Text("Hành động", "Action")</th>
+                        <th>@Loc.Text("Đối tượng bị tác động", "Target")</th>
+                        <th>@Loc.Text("Giá trị cũ", "Previous value")</th>
+                        <th>@Loc.Text("Giá trị mới", "New value")</th>
                     </tr>
                 </thead>
-                <tbody id="historyTableBody"></tbody>
+                <tbody>
+                    @if (PagedLogs.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="5" class="audit-empty">@Loc.Text("Chưa có thao tác nào phù hợp với bộ lọc hiện tại.", "No activity matches the current filters.")</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var log in PagedLogs)
+                        {
+                            <tr>
+                                <td data-label="@Loc.Text("Thời gian", "Timestamp")">@FormatTimestamp(log.Timestamp)</td>
+                                <td data-label="@Loc.Text("Hành động", "Action")"><span class="audit-action @ActionClass(log.ActionKey)">@ActionText(log.ActionKey)</span></td>
+                                <td data-label="@Loc.Text("Đối tượng bị tác động", "Target")">@Localized(log.TargetVi, log.TargetEn)</td>
+                                <td data-label="@Loc.Text("Giá trị cũ", "Previous value")">@Localized(log.BeforeVi, log.BeforeEn)</td>
+                                <td data-label="@Loc.Text("Giá trị mới", "New value")">@Localized(log.AfterVi, log.AfterEn)</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
             </table>
         </div>
 
         <div class="history-pagination">
-            <p id="historyPageInfo">Trang 1 / 1</p>
+            <p>@Loc.Text($"Trang {CurrentPage} / {TotalPages}", $"Page {CurrentPage} / {TotalPages}")</p>
             <div class="history-pagination-actions">
-                <button class="btn btn-neutral" type="button" id="historyPrevPage">Trang trước</button>
-                <button class="btn btn-neutral" type="button" id="historyNextPage">Trang sau</button>
+                <button class="btn btn-neutral" type="button" @onclick="PrevPage" disabled="@(CurrentPage <= 1)">@Loc.Text("Trang trước", "Previous")</button>
+                <button class="btn btn-neutral" type="button" @onclick="NextPage" disabled="@(CurrentPage >= TotalPages)">@Loc.Text("Trang sau", "Next")</button>
             </div>
         </div>
     </article>
@@ -111,73 +133,196 @@
         <div class="profile-modal" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
             <div class="profile-modal-head">
                 <div>
-                    <p class="eyebrow">Chỉnh sửa hồ sơ</p>
-                    <h3 id="profileModalTitle">Cập nhật thông tin quản trị viên</h3>
+                    <p class="eyebrow">@Loc.Text("Chỉnh sửa hồ sơ", "Edit profile")</p>
+                    <h3 id="profileModalTitle">@Loc.Text("Cập nhật thông tin quản trị viên", "Update administrator details")</h3>
                 </div>
-                <button class="profile-modal-close" type="button" id="closeProfileModal" aria-label="Đóng">×</button>
+                <button class="profile-modal-close" type="button" id="closeProfileModal" aria-label="@Loc.Text("Đóng", "Close")">×</button>
             </div>
 
             <div class="form-grid profile-modal-grid">
                 <label class="field-group">
-                    <span>Họ và tên</span>
+                    <span>@Loc.Text("Họ và tên", "Full name")</span>
                     <input id="editFullName" type="text" />
                 </label>
                 <label class="field-group">
-                    <span>Email</span>
+                    <span>@Loc.Text("Email", "Email")</span>
                     <input id="editEmail" type="email" />
                 </label>
                 <label class="field-group">
-                    <span>Vai trò</span>
+                    <span>@Loc.Text("Vai trò", "Role")</span>
                     <input id="editRole" type="text" />
                 </label>
                 <label class="field-group">
-                    <span>Ngày tạo tài khoản</span>
+                    <span>@Loc.Text("Ngày tạo tài khoản", "Created on")</span>
                     <input id="editCreatedAt" type="text" />
                 </label>
                 <label class="field-group">
-                    <span>Trạng thái hoạt động</span>
+                    <span>@Loc.Text("Trạng thái hoạt động", "Account status")</span>
                     <select id="editStatus">
-                        <option value="Đang hoạt động">Đang hoạt động</option>
-                        <option value="Tạm khóa">Tạm khóa</option>
-                        <option value="Chờ xác minh">Chờ xác minh</option>
+                        <option value="@Loc.Text("Đang hoạt động", "Active")">@Loc.Text("Đang hoạt động", "Active")</option>
+                        <option value="@Loc.Text("Tạm khóa", "Suspended")">@Loc.Text("Tạm khóa", "Suspended")</option>
+                        <option value="@Loc.Text("Chờ xác minh", "Pending verification")">@Loc.Text("Chờ xác minh", "Pending verification")</option>
                     </select>
                 </label>
             </div>
 
             <div class="profile-modal-actions">
-                <button class="btn btn-neutral" type="button" id="cancelProfileEdit">Hủy</button>
-                <button class="btn btn-hero-primary" type="button" id="saveProfileEdit">Lưu thông tin</button>
+                <button class="btn btn-neutral" type="button" id="cancelProfileEdit">@Loc.Text("Hủy", "Cancel")</button>
+                <button class="btn btn-hero-primary" type="button" id="saveProfileEdit">@Loc.Text("Lưu thông tin", "Save changes")</button>
             </div>
         </div>
     </div>
 </section>
 
 @code {
+    private const int PageSize = 5;
     private IJSObjectReference? _module;
+    private int CurrentPage = 1;
+    private string? fromDate;
+    private string? toDate;
+
+    private string DisplayFullName => Session.CurrentUser?.FullName ?? "Lê Thu Hà";
+
+    private string DisplayRole => Session.CurrentUser is null
+        ? Loc.Text("Quản trị viên cấp cao", "Super Admin")
+        : Loc.Text(Session.CurrentUser.Role, Session.CurrentUser.Role == "Quản trị viên cấp cao" ? "Super Admin" : "Partner Admin");
+
+    private string DisplayStatus => Loc.Text("Đang hoạt động", "Active");
+
+    private string DisplayEmail
+    {
+        get
+        {
+            var digits = new string((Session.CurrentUser?.Phone ?? "0123456789").Where(char.IsDigit).ToArray());
+            var emailSeed = string.IsNullOrWhiteSpace(digits) ? "admin" : $"admin{digits[^4..]}";
+            return $"{emailSeed}@dscity.vn";
+        }
+    }
+
+    private List<AuditLogEntry> FilteredLogs => Workspace.AuditLogs
+        .Where(IsWithinFilter)
+        .OrderByDescending(x => x.Timestamp)
+        .ToList();
+
+    private int TotalPages => Math.Max(1, (int)Math.Ceiling(FilteredLogs.Count / (double)PageSize));
+
+    private List<AuditLogEntry> PagedLogs => FilteredLogs
+        .Skip((CurrentPage - 1) * PageSize)
+        .Take(PageSize)
+        .ToList();
+
+    protected override void OnInitialized()
+    {
+        Loc.OnChange += HandleLanguageChanged;
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!firstRender)
+        if (CurrentPage > TotalPages)
         {
-            return;
+            CurrentPage = TotalPages;
         }
 
-        var digits = new string((Session.CurrentUser?.Phone ?? "0123456789").Where(char.IsDigit).ToArray());
-        var emailSeed = string.IsNullOrWhiteSpace(digits) ? "admin" : $"admin{digits[^4..]}";
-
-        _module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/admin-account.js");
-        await _module.InvokeVoidAsync("initAdminAccountPage", new
+        if (firstRender)
         {
-            fullName = Session.CurrentUser?.FullName ?? "Lê Thu Hà",
-            email = $"{emailSeed}@dscity.vn",
-            role = Session.CurrentUser?.Role ?? "Quản trị viên cấp cao",
-            createdAt = "08/06/2026",
-            status = "Đang hoạt động"
-        });
+            _module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/admin-account.js");
+        }
+
+        if (_module is not null)
+        {
+            await _module.InvokeVoidAsync("initAdminAccountPage", new
+            {
+                fullName = DisplayFullName,
+                email = DisplayEmail,
+                role = DisplayRole,
+                createdAt = "08/06/2026",
+                status = DisplayStatus,
+                labels = new
+                {
+                    alertIncomplete = Loc.Text("Vui lòng nhập đầy đủ thông tin hồ sơ tài khoản.", "Please complete all account profile fields.")
+                }
+            });
+        }
     }
+
+    private void OnFromDateChanged(ChangeEventArgs args)
+    {
+        fromDate = args.Value?.ToString();
+        CurrentPage = 1;
+    }
+
+    private void OnToDateChanged(ChangeEventArgs args)
+    {
+        toDate = args.Value?.ToString();
+        CurrentPage = 1;
+    }
+
+    private void ResetHistoryFilters()
+    {
+        fromDate = null;
+        toDate = null;
+        CurrentPage = 1;
+    }
+
+    private void PrevPage()
+    {
+        if (CurrentPage > 1)
+        {
+            CurrentPage--;
+        }
+    }
+
+    private void NextPage()
+    {
+        if (CurrentPage < TotalPages)
+        {
+            CurrentPage++;
+        }
+    }
+
+    private bool IsWithinFilter(AuditLogEntry log)
+    {
+        var date = DateOnly.FromDateTime(log.Timestamp);
+
+        if (DateOnly.TryParse(fromDate, out var from) && date < from)
+        {
+            return false;
+        }
+
+        if (DateOnly.TryParse(toDate, out var to) && date > to)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private string Localized(string vi, string en) => Loc.IsEnglish ? en : vi;
+
+    private string ActionText(string actionKey) => actionKey switch
+    {
+        "add" => Loc.Text("Thêm", "Add"),
+        "delete" => Loc.Text("Xóa", "Delete"),
+        _ => Loc.Text("Sửa", "Edit")
+    };
+
+    private static string ActionClass(string actionKey) => actionKey switch
+    {
+        "add" => "success",
+        "delete" => "danger",
+        _ => "info"
+    };
+
+    private string FormatTimestamp(DateTime timestamp) => Loc.IsEnglish
+        ? timestamp.ToString("MM/dd/yyyy HH:mm")
+        : timestamp.ToString("dd/MM/yyyy HH:mm");
+
+    private void HandleLanguageChanged() => InvokeAsync(StateHasChanged);
 
     public async ValueTask DisposeAsync()
     {
+        Loc.OnChange -= HandleLanguageChanged;
+
         if (_module is not null)
         {
             await _module.DisposeAsync();

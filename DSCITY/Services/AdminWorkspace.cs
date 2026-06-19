@@ -2,6 +2,8 @@
 
 public class AdminWorkspace
 {
+    private readonly List<AuditLogEntry> _auditLogs = [];
+
     public List<CompanyRecord> Companies { get; } =
     [
         new() { Id = Guid.NewGuid(), Name = "Central Plaza Parking", TaxCode = "0312456789", Category = "Bãi đỗ xe thông minh", Contact = "Nguyễn Phương Linh", Location = "Quận 1, TP.HCM", Status = "Hoạt động", ContractInfo = "Hết hạn 28/06/2026", Notes = "Đối tác chiến lược, ưu tiên gia hạn sớm." },
@@ -23,6 +25,8 @@ public class AdminWorkspace
         new() { Id = Guid.NewGuid(), Number = "DSC-2026-057", CompanyName = "Urban Charge Hub", Version = "V2.1", EffectivePeriod = "Chờ kích hoạt", Status = "Chờ ký", Value = "1.8B", Owner = "Nhóm kinh doanh", Notes = "Đang đợi đại diện doanh nghiệp ký số." },
         new() { Id = Guid.NewGuid(), Number = "DSC-2026-063", CompanyName = "Skyline Mobility", Version = "V1.2", EffectivePeriod = "Bản nháp", Status = "Cần bổ sung", Value = "950M", Owner = "Nhóm đối tác", Notes = "Cần bổ sung điều khoản bảo hành pin." }
     ];
+
+    public IReadOnlyList<AuditLogEntry> AuditLogs => _auditLogs;
 
     public CompanyRecord CreateCompanyDraft() => new() { Id = Guid.NewGuid(), Status = "Chờ thẩm định", ContractInfo = "Chưa tạo hợp đồng" };
     public RegistrationRecord CreateRegistrationDraft() => new() { Id = Guid.NewGuid(), Code = $"REG-{DateTime.Now:yyMMdd-HHmm}", Priority = "Trung bình", Status = "Tiếp nhận", Sla = "Mới tạo" };
@@ -58,9 +62,14 @@ public class AdminWorkspace
         var existing = Registrations.FirstOrDefault(x => x.Id == draft.Id);
         if (existing is null)
         {
-            Registrations.Insert(0, draft.Clone());
+            var created = draft.Clone();
+            Registrations.Insert(0, created);
+            AddAuditLog("add", $"Hồ sơ đăng ký {created.Code}", $"Registration dossier {created.Code}", "Chưa có hồ sơ", "No dossier yet", RegistrationSummaryVi(created), RegistrationSummaryEn(created));
             return;
         }
+
+        var beforeVi = RegistrationSummaryVi(existing);
+        var beforeEn = RegistrationSummaryEn(existing);
 
         existing.Code = draft.Code;
         existing.CompanyName = draft.CompanyName;
@@ -70,12 +79,25 @@ public class AdminWorkspace
         existing.Sla = draft.Sla;
         existing.Status = draft.Status;
         existing.Notes = draft.Notes;
+
+        AddAuditLog("edit", $"Hồ sơ đăng ký {existing.Code}", $"Registration dossier {existing.Code}", beforeVi, beforeEn, RegistrationSummaryVi(existing), RegistrationSummaryEn(existing));
     }
 
     public bool DeleteRegistration(Guid id)
     {
         var existing = Registrations.FirstOrDefault(x => x.Id == id);
-        return existing is not null && Registrations.Remove(existing);
+        if (existing is null)
+        {
+            return false;
+        }
+
+        var removed = Registrations.Remove(existing);
+        if (removed)
+        {
+            AddAuditLog("delete", $"Hồ sơ đăng ký {existing.Code}", $"Registration dossier {existing.Code}", RegistrationSummaryVi(existing), RegistrationSummaryEn(existing), "Đã xóa hồ sơ khỏi danh sách", "Removed the dossier from the list");
+        }
+
+        return removed;
     }
 
     public void SaveContract(ContractRecord draft)
@@ -83,9 +105,14 @@ public class AdminWorkspace
         var existing = Contracts.FirstOrDefault(x => x.Id == draft.Id);
         if (existing is null)
         {
-            Contracts.Insert(0, draft.Clone());
+            var created = draft.Clone();
+            Contracts.Insert(0, created);
+            AddAuditLog("add", $"Hợp đồng {created.Number}", $"Contract {created.Number}", "Chưa có hợp đồng", "No contract yet", ContractSummaryVi(created), ContractSummaryEn(created));
             return;
         }
+
+        var beforeVi = ContractSummaryVi(existing);
+        var beforeEn = ContractSummaryEn(existing);
 
         existing.Number = draft.Number;
         existing.CompanyName = draft.CompanyName;
@@ -95,13 +122,67 @@ public class AdminWorkspace
         existing.Value = draft.Value;
         existing.Owner = draft.Owner;
         existing.Notes = draft.Notes;
+
+        AddAuditLog("edit", $"Hợp đồng {existing.Number}", $"Contract {existing.Number}", beforeVi, beforeEn, ContractSummaryVi(existing), ContractSummaryEn(existing));
     }
 
     public bool DeleteContract(Guid id)
     {
         var existing = Contracts.FirstOrDefault(x => x.Id == id);
-        return existing is not null && Contracts.Remove(existing);
+        if (existing is null)
+        {
+            return false;
+        }
+
+        var removed = Contracts.Remove(existing);
+        if (removed)
+        {
+            AddAuditLog("delete", $"Hợp đồng {existing.Number}", $"Contract {existing.Number}", ContractSummaryVi(existing), ContractSummaryEn(existing), "Đã xóa hợp đồng khỏi danh sách", "Removed the contract from the list");
+        }
+
+        return removed;
     }
+
+    private void AddAuditLog(string actionKey, string targetVi, string targetEn, string beforeVi, string beforeEn, string afterVi, string afterEn)
+    {
+        _auditLogs.Insert(0, new AuditLogEntry
+        {
+            Id = Guid.NewGuid(),
+            Timestamp = DateTime.Now,
+            ActionKey = actionKey,
+            TargetVi = targetVi,
+            TargetEn = targetEn,
+            BeforeVi = beforeVi,
+            BeforeEn = beforeEn,
+            AfterVi = afterVi,
+            AfterEn = afterEn
+        });
+    }
+
+    private static string RegistrationSummaryVi(RegistrationRecord registration) =>
+        $"Doanh nghiệp: {registration.CompanyName} | Bước: {registration.CurrentStep} | Người phụ trách: {registration.Owner} | Trạng thái: {registration.Status}";
+
+    private static string RegistrationSummaryEn(RegistrationRecord registration) =>
+        $"Company: {registration.CompanyName} | Step: {registration.CurrentStep} | Owner: {registration.Owner} | Status: {registration.Status}";
+
+    private static string ContractSummaryVi(ContractRecord contract) =>
+        $"Doanh nghiệp: {contract.CompanyName} | Phiên bản: {contract.Version} | Giá trị: {contract.Value} | Trạng thái: {contract.Status}";
+
+    private static string ContractSummaryEn(ContractRecord contract) =>
+        $"Company: {contract.CompanyName} | Version: {contract.Version} | Value: {contract.Value} | Status: {contract.Status}";
+}
+
+public class AuditLogEntry
+{
+    public Guid Id { get; set; }
+    public DateTime Timestamp { get; set; }
+    public string ActionKey { get; set; } = string.Empty;
+    public string TargetVi { get; set; } = string.Empty;
+    public string TargetEn { get; set; } = string.Empty;
+    public string BeforeVi { get; set; } = string.Empty;
+    public string BeforeEn { get; set; } = string.Empty;
+    public string AfterVi { get; set; } = string.Empty;
+    public string AfterEn { get; set; } = string.Empty;
 }
 
 public class CompanyRecord
